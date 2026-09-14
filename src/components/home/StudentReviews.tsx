@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { getStudentVideoPoster } from "@/data/generated/student-video-posters";
 import {
   ArrowLeft,
   ArrowRight,
@@ -19,8 +20,7 @@ const reviews = [
     title: "My journey at Dhanik Bharat",
     description:
       "Hear directly from our students about their learning experience, teachers and everyday life at Dhanik Bharat.",
-    video: "/videos/reviews/student-01.mp4",
-    thumbnail: "/images/reviews/student-01.jpg",
+    video: "/images/students/1.mp4",
   },
   {
     id: "02",
@@ -29,8 +29,7 @@ const reviews = [
     title: "Learning with confidence",
     description:
       "A student's perspective on learning, preparation and the support they receive throughout their journey.",
-    video: "/videos/reviews/student-02.mp4",
-    thumbnail: "/images/reviews/student-02.jpg",
+    video: "/images/students/2.mp4",
   },
   {
     id: "03",
@@ -39,8 +38,7 @@ const reviews = [
     title: "Finding clarity in my preparation",
     description:
       "Discover how students experience the academic environment and approach their preparation at Dhanik Bharat.",
-    video: "/videos/reviews/student-03.mp4",
-    thumbnail: "/images/reviews/student-03.jpg",
+    video: "/images/students/3.mp4",
   },
   {
     id: "04",
@@ -49,8 +47,7 @@ const reviews = [
     title: "More than just academics",
     description:
       "A glimpse into the student experience beyond academics — from mentoring to everyday campus life.",
-    video: "/videos/reviews/student-04.mp4",
-    thumbnail: "/images/reviews/student-04.jpg",
+    video: "/images/students/4.mp4",
   },
 ];
 
@@ -59,9 +56,11 @@ export default function StudentReviews() {
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
   const current = reviews[active];
+  const currentPoster = getStudentVideoPoster(current.video);
 
   /* =========================================================
      CHANGE STORY
@@ -73,9 +72,11 @@ export default function StudentReviews() {
     setPlaying(false);
     setActive(index);
 
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
+    for (const video of [desktopVideoRef.current, mobileVideoRef.current]) {
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
     }
   };
 
@@ -97,18 +98,18 @@ export default function StudentReviews() {
      PLAY / PAUSE
   ========================================================= */
 
-  const togglePlay = async () => {
-    if (!videoRef.current) return;
+  const togglePlay = async (video: HTMLVideoElement | null) => {
+    if (!video) return;
 
-    if (videoRef.current.paused) {
+    if (video.paused) {
       try {
-        await videoRef.current.play();
+        await video.play();
         setPlaying(true);
       } catch {
         setPlaying(false);
       }
     } else {
-      videoRef.current.pause();
+      video.pause();
       setPlaying(false);
     }
   };
@@ -117,11 +118,11 @@ export default function StudentReviews() {
      MUTE
   ========================================================= */
 
-  const toggleMute = () => {
-    if (!videoRef.current) return;
+  const toggleMute = (video: HTMLVideoElement | null) => {
+    if (!video) return;
 
-    videoRef.current.muted = !videoRef.current.muted;
-    setMuted(videoRef.current.muted);
+    video.muted = !video.muted;
+    setMuted(video.muted);
   };
 
   return (
@@ -187,10 +188,10 @@ export default function StudentReviews() {
               <div className="relative h-[590px] aspect-[9/16] overflow-hidden rounded-[18px] bg-black">
 
                 <video
-                  ref={videoRef}
+                  ref={desktopVideoRef}
                   key={current.video}
                   src={current.video}
-                  poster={current.thumbnail}
+                  poster={currentPoster}
                   playsInline
                   preload="metadata"
                   muted={muted}
@@ -229,7 +230,7 @@ export default function StudentReviews() {
 
                   <button
                     type="button"
-                    onClick={toggleMute}
+                    onClick={() => toggleMute(desktopVideoRef.current)}
                     aria-label={muted ? "Unmute video" : "Mute video"}
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-md"
                   >
@@ -248,7 +249,7 @@ export default function StudentReviews() {
                 {!playing && (
                   <button
                     type="button"
-                    onClick={togglePlay}
+                    onClick={() => togglePlay(desktopVideoRef.current)}
                     aria-label="Play student review"
                     className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#123b2a] shadow-xl transition-transform duration-300 hover:scale-105"
                   >
@@ -336,6 +337,7 @@ export default function StudentReviews() {
                 {reviews.map((review, index) => {
 
                   const isActive = index === active;
+                  const poster = getStudentVideoPoster(review.video);
 
                   return (
                     <button
@@ -356,14 +358,16 @@ export default function StudentReviews() {
                       </span>
 
 
-                      <div className="relative h-10 w-8 shrink-0 overflow-hidden rounded-[5px]">
-                        <Image
-                          src={review.thumbnail}
-                          alt=""
-                          fill
-                          sizes="32px"
-                          className="object-cover"
-                        />
+                      <div className="relative h-10 w-8 shrink-0 overflow-hidden rounded-[5px] bg-white/10">
+                        {poster && (
+                          <Image
+                            src={poster}
+                            alt=""
+                            fill
+                            sizes="32px"
+                            className="object-cover"
+                          />
+                        )}
                       </div>
 
 
@@ -419,7 +423,7 @@ export default function StudentReviews() {
                   </span>
 
                   <span className="font-mono text-[10px] text-white/25">
-                    / 04
+                    / {String(reviews.length).padStart(2, "0")}
                   </span>
 
                 </div>
@@ -473,10 +477,10 @@ export default function StudentReviews() {
               <div className="relative aspect-[9/16] w-full">
 
                 <video
-                  ref={videoRef}
+                  ref={mobileVideoRef}
                   key={current.video}
                   src={current.video}
-                  poster={current.thumbnail}
+                  poster={currentPoster}
                   playsInline
                   preload="metadata"
                   muted={muted}
@@ -512,7 +516,7 @@ export default function StudentReviews() {
 
                   <button
                     type="button"
-                    onClick={toggleMute}
+                    onClick={() => toggleMute(mobileVideoRef.current)}
                     aria-label={muted ? "Unmute video" : "Mute video"}
                     className="flex h-9 w-9 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-md"
                   >
@@ -531,7 +535,7 @@ export default function StudentReviews() {
                 {!playing && (
                   <button
                     type="button"
-                    onClick={togglePlay}
+                    onClick={() => togglePlay(mobileVideoRef.current)}
                     aria-label="Play student review"
                     className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#123b2a] shadow-lg active:scale-95"
                   >

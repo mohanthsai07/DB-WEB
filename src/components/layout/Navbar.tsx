@@ -37,7 +37,7 @@ export default function Navbar() {
           aria-label="Dhanik Bharat Educational Institutions"
         >
           <Image
-            src="/logo/logonav.png"
+            src="/logo/logo1.png"
             alt="Dhanik Bharat Educational Institutions"
             width={225}
             height={65}
@@ -45,6 +45,7 @@ export default function Navbar() {
             className="h-auto w-[185px] sm:w-[205px]"
           />
         </Link>
+
 
         {/* DESKTOP NAV */}
         <nav className="hidden items-center gap-8 lg:flex">

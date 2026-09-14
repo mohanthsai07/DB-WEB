@@ -5,22 +5,22 @@ const programs = [
   {
     number: "01",
     stream: "MPC",
-    title: "Engineering",
+    title: "IIT - JEE (MPC)",
     exams: "JEE · BITSAT · Olympiads",
     description:
       "Strong foundations in Mathematics, Physics and Chemistry with focused preparation for competitive examinations.",
-    image: "/images/programs/jee.jpg",
+    image: "/images/programs/mpc.png",
     accent: "#08783F",
     href: "/programs/jee",
   },
   {
     number: "02",
     stream: "BiPC",
-    title: "Medicine",
+    title: "NEET (BiPC)",
     exams: "NEET · Medical Preparation",
     description:
       "A structured academic journey combining Intermediate education with focused preparation for medical entrance examinations.",
-    image: "/images/programs/neet.jpg",
+    image: "/images/programs/bipc.png",
     accent: "#E50046",
     href: "/programs/neet",
   },
@@ -51,7 +51,7 @@ export default function Programs() {
 
             <h2 className="text-[42px] font-semibold leading-[0.98] tracking-[-0.055em] text-[#123b2a] sm:text-[56px] lg:text-[68px]">
 
-              Choose the path
+              Choose the path     
               <br />
 
               that shapes your{" "}

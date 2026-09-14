@@ -18,7 +18,7 @@ const experiences = [
     shortTitle: "Academic",
     description:
       "A focused learning environment where students build strong concepts, practise consistently and engage closely with faculty.",
-    image: "/images/experience/classroom.jpg",
+    image: "/images/campus/environment.png",
     icon: BookOpen,
   },
   {
@@ -152,7 +152,7 @@ export default function DhanikBharatExperience() {
             <h2 className="text-[40px] font-semibold leading-[0.98] tracking-[-0.05em] text-[#123b2a] sm:text-[50px] lg:text-[62px]">
               More than a classroom.
               <br />
-              <span className="text-[#08783f]">
+              <span className="text-[#e50046]">
                 A place to grow.
               </span>
             </h2>
