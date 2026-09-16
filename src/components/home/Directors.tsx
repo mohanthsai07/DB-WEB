@@ -1,281 +1,432 @@
 "use client";
 
 import Image from "next/image";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
-const directors = [
+interface Director {
+  id: string;
+  name: string;
+  role: string;
+  image: string;
+}
+
+const directors: Director[] = [
   {
     id: "01",
     name: "Director Name",
     role: "Director",
-    image: "/images/directors/director-01.jpg",
+    image: "/images/directors/S.png",
   },
   {
     id: "02",
     name: "Director Name",
     role: "Director",
-    image: "/images/directors/director-02.jpg",
+    image: "/images/leadership/director-02.jpg",
   },
   {
     id: "03",
     name: "Director Name",
     role: "Director",
-    image: "/images/directors/director-03.jpg",
+    image: "/images/leadership/director-03.jpg",
   },
   {
     id: "04",
     name: "Director Name",
     role: "Director",
-    image: "/images/directors/director-04.jpg",
+    image: "/images/leadership/director-04.jpg",
   },
   {
     id: "05",
     name: "Director Name",
     role: "Director",
-    image: "/images/directors/director-05.jpg",
+    image: "/images/leadership/director-05.jpg",
   },
   {
     id: "06",
     name: "Director Name",
     role: "Director",
-    image: "/images/directors/director-06.jpg",
+    image: "/images/leadership/director-06.jpg",
   },
   {
     id: "07",
     name: "Director Name",
     role: "Director",
-    image: "/images/directors/director-07.jpg",
+    image: "/images/leadership/director-07.jpg",
   },
 ];
 
-export default function Directors() {
-  const [active, setActive] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [viewportWidth, setViewportWidth] = useState(0);
+/* ============================================================
+   GET CARD POSITION
+============================================================ */
 
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const touchStartX = useRef<number | null>(null);
+function getPosition(
+  distance: number,
+  screenWidth: number
+) {
+  /*
+    distance:
 
-  const total = directors.length;
+    -3 = far left
+    -2 = left
+    -1 = near left
+     0 = center
+     1 = near right
+     2 = right
+     3 = far right
+  */
 
+  const isMobile = screenWidth < 640;
+  const isTablet =
+    screenWidth >= 640 && screenWidth < 1024;
 
-  /* ============================================================
-     RESPONSIVE VIEWPORT
-  ============================================================ */
+  if (isMobile) {
+    const positions: Record<number, any> = {
+      [-3]: {
+        x: -145,
+        y: 35,
+        z: -140,
+        rotateY: 22,
+        rotateZ: -10,
+        scale: 0.68,
+        opacity: 0,
+      },
 
-  useEffect(() => {
-    const updateWidth = () => {
-      if (carouselRef.current) {
-        setViewportWidth(
-          carouselRef.current.clientWidth
-        );
-      }
+      [-2]: {
+        x: -105,
+        y: 20,
+        z: -90,
+        rotateY: 17,
+        rotateZ: -8,
+        scale: 0.76,
+        opacity: 0.45,
+      },
+
+      [-1]: {
+        x: -72,
+        y: 8,
+        z: -35,
+        rotateY: 9,
+        rotateZ: -4,
+        scale: 0.86,
+        opacity: 0.8,
+      },
+
+      [0]: {
+        x: 0,
+        y: 0,
+        z: 80,
+        rotateY: 0,
+        rotateZ: 0,
+        scale: 1,
+        opacity: 1,
+      },
+
+      [1]: {
+        x: 72,
+        y: 8,
+        z: -35,
+        rotateY: -9,
+        rotateZ: 4,
+        scale: 0.86,
+        opacity: 0.8,
+      },
+
+      [2]: {
+        x: 105,
+        y: 20,
+        z: -90,
+        rotateY: -17,
+        rotateZ: 8,
+        scale: 0.76,
+        opacity: 0.45,
+      },
+
+      [3]: {
+        x: 145,
+        y: 35,
+        z: -140,
+        rotateY: -22,
+        rotateZ: 10,
+        scale: 0.68,
+        opacity: 0,
+      },
     };
 
-    updateWidth();
+    return positions[distance];
+  }
 
-    const observer = new ResizeObserver(updateWidth);
+  if (isTablet) {
+    const positions: Record<number, any> = {
+      [-3]: {
+        x: -390,
+        y: 45,
+        z: -150,
+        rotateY: 20,
+        rotateZ: -11,
+        scale: 0.72,
+        opacity: 0,
+      },
 
-    if (carouselRef.current) {
-      observer.observe(carouselRef.current);
-    }
+      [-2]: {
+        x: -275,
+        y: 27,
+        z: -100,
+        rotateY: 14,
+        rotateZ: -7,
+        scale: 0.8,
+        opacity: 0.55,
+      },
+
+      [-1]: {
+        x: -145,
+        y: 8,
+        z: -35,
+        rotateY: 7,
+        rotateZ: -4,
+        scale: 0.91,
+        opacity: 0.9,
+      },
+
+      [0]: {
+        x: 0,
+        y: 0,
+        z: 80,
+        rotateY: 0,
+        rotateZ: 0,
+        scale: 1,
+        opacity: 1,
+      },
+
+      [1]: {
+        x: 145,
+        y: 8,
+        z: -35,
+        rotateY: -7,
+        rotateZ: 4,
+        scale: 0.91,
+        opacity: 0.9,
+      },
+
+      [2]: {
+        x: 275,
+        y: 27,
+        z: -100,
+        rotateY: -14,
+        rotateZ: 7,
+        scale: 0.8,
+        opacity: 0.55,
+      },
+
+      [3]: {
+        x: 390,
+        y: 45,
+        z: -150,
+        rotateY: -20,
+        rotateZ: 11,
+        scale: 0.72,
+        opacity: 0,
+      },
+    };
+
+    return positions[distance];
+  }
+
+  /* DESKTOP */
+
+  const positions: Record<number, any> = {
+    [-3]: {
+      x: -610,
+      y: 58,
+      z: -190,
+      rotateY: 22,
+      rotateZ: -14,
+      scale: 0.75,
+      opacity: 0,
+    },
+
+    [-2]: {
+      x: -430,
+      y: 35,
+      z: -125,
+      rotateY: 15,
+      rotateZ: -9,
+      scale: 0.84,
+      opacity: 0.58,
+    },
+
+    [-1]: {
+      x: -225,
+      y: 12,
+      z: -45,
+      rotateY: 7,
+      rotateZ: -4,
+      scale: 0.94,
+      opacity: 0.9,
+    },
+
+    [0]: {
+      x: 0,
+      y: 0,
+      z: 100,
+      rotateY: 0,
+      rotateZ: 0,
+      scale: 1,
+      opacity: 1,
+    },
+
+    [1]: {
+      x: 225,
+      y: 12,
+      z: -45,
+      rotateY: -7,
+      rotateZ: 4,
+      scale: 0.94,
+      opacity: 0.9,
+    },
+
+    [2]: {
+      x: 430,
+      y: 35,
+      z: -125,
+      rotateY: -15,
+      rotateZ: 9,
+      scale: 0.84,
+      opacity: 0.58,
+    },
+
+    [3]: {
+      x: 610,
+      y: 58,
+      z: -190,
+      rotateY: -22,
+      rotateZ: 14,
+      scale: 0.75,
+      opacity: 0,
+    },
+  };
+
+  return positions[distance];
+}
+
+
+/* ============================================================
+   MAIN COMPONENT
+============================================================ */
+
+export default function Directors() {
+  const [activeIndex, setActiveIndex] =
+    useState(3);
+
+  const [hoveredIndex, setHoveredIndex] =
+    useState<number | null>(null);
+
+  const [screenWidth, setScreenWidth] =
+    useState(1200);
+
+  const touchStartX =
+    useRef<number | null>(null);
+
+  /* ==========================================================
+     SCREEN SIZE
+  ========================================================== */
+
+  useEffect(() => {
+    const updateSize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    updateSize();
 
     window.addEventListener(
       "resize",
-      updateWidth
+      updateSize
     );
 
     return () => {
-      observer.disconnect();
       window.removeEventListener(
         "resize",
-        updateWidth
+        updateSize
       );
     };
   }, []);
 
 
-  /* ============================================================
-     NAVIGATION
-  ============================================================ */
+  /* ==========================================================
+     NEXT
+  ========================================================== */
 
-  const next = () => {
-    setActive(
-      (current) =>
-        (current + 1) % total
-    );
-  };
-
-  const previous = () => {
-    setActive(
-      (current) =>
-        (current - 1 + total) % total
-    );
-  };
+  const next = useCallback(() => {
+    setActiveIndex((current) => {
+      return (
+        (current + 1) %
+        directors.length
+      );
+    });
+  }, []);
 
 
-  /* ============================================================
-     AUTOMATIC CINEMATIC MOVEMENT
-  ============================================================ */
+  /* ==========================================================
+     PREVIOUS
+  ========================================================== */
+
+  const previous = useCallback(() => {
+    setActiveIndex((current) => {
+      return (
+        (current -
+          1 +
+          directors.length) %
+        directors.length
+      );
+    });
+  }, []);
+
+
+  /* ==========================================================
+     AUTO PLAY
+  ========================================================== */
 
   useEffect(() => {
-    if (isPaused) return;
-
     const timer = setInterval(() => {
-      setActive(
-        (current) =>
-          (current + 1) % total
-      );
-    }, 5000);
+      if (hoveredIndex === null) {
+        next();
+      }
+    }, 5500);
 
-    return () => clearInterval(timer);
-  }, [isPaused, total]);
-
-
-  /* ============================================================
-     CIRCULAR POSITION
-  ============================================================ */
-
-  const getPosition = (index: number) => {
-    let position = index - active;
-
-    if (position > total / 2) {
-      position -= total;
-    }
-
-    if (position < -total / 2) {
-      position += total;
-    }
-
-    return position;
-  };
+    return () => {
+      clearInterval(timer);
+    };
+  }, [next, hoveredIndex]);
 
 
-  /* ============================================================
-     RESPONSIVE CAROUSEL VALUES
-  ============================================================ */
-
-  const isMobile = viewportWidth > 0 &&
-    viewportWidth < 768;
-
-  const isTablet = viewportWidth >= 768 &&
-    viewportWidth < 1024;
-
-
-  /*
-   * Card width scales naturally.
-   *
-   * Mobile:
-   * ~220px → ~285px
-   *
-   * Desktop:
-   * ~270px → 310px
-   */
-
-  const cardWidth = isMobile
-    ? Math.min(
-        285,
-        Math.max(
-          215,
-          viewportWidth * 0.70
-        )
-      )
-    : isTablet
-      ? Math.min(
-          290,
-          Math.max(
-            245,
-            viewportWidth * 0.30
-          )
-        )
-      : Math.min(
-          310,
-          Math.max(
-            270,
-            viewportWidth * 0.215
-          )
-        );
-
-
-  /*
-   * Card height maintains the portrait
-   * cinematic ratio.
-   */
-
-  const cardHeight = isMobile
-    ? Math.round(cardWidth * 1.43)
-    : isTablet
-      ? Math.round(cardWidth * 1.43)
-      : 455;
-
-
-  /*
-   * Distance between cards.
-   *
-   * This is the important fix:
-   * no more fixed 245px on every screen.
-   */
-
-  const step = isMobile
-    ? Math.max(
-        cardWidth * 0.68,
-        viewportWidth * 0.56
-      )
-    : isTablet
-      ? Math.max(
-          cardWidth * 0.72,
-          viewportWidth * 0.29
-        )
-      : Math.max(
-          190,
-          Math.min(
-            245,
-            viewportWidth * 0.17
-          )
-        );
-
-
-  /* ============================================================
-     TOUCH SWIPE
-  ============================================================ */
+  /* ==========================================================
+     SWIPE
+  ========================================================== */
 
   const handleTouchStart = (
-    event: React.TouchEvent
+    e: React.TouchEvent
   ) => {
     touchStartX.current =
-      event.touches[0].clientX;
-
-    setIsPaused(true);
+      e.touches[0].clientX;
   };
 
 
   const handleTouchEnd = (
-    event: React.TouchEvent
+    e: React.TouchEvent
   ) => {
     if (
       touchStartX.current === null
     ) {
-      setIsPaused(false);
       return;
     }
 
-    const touchEndX =
-      event.changedTouches[0].clientX;
+    const endX =
+      e.changedTouches[0].clientX;
 
-    const distance =
-      touchStartX.current -
-      touchEndX;
+    const difference =
+      touchStartX.current - endX;
 
-    if (Math.abs(distance) > 45) {
-      if (distance > 0) {
+    if (Math.abs(difference) > 45) {
+      if (difference > 0) {
         next();
       } else {
         previous();
@@ -283,542 +434,503 @@ export default function Directors() {
     }
 
     touchStartX.current = null;
-
-    setIsPaused(false);
   };
 
 
-  /* ============================================================
-     KEYBOARD
-  ============================================================ */
+  /* ==========================================================
+     CARD CLICK
+  ========================================================== */
 
-  useEffect(() => {
-    const handleKeyDown = (
-      event: KeyboardEvent
-    ) => {
-      if (
-        event.key === "ArrowRight"
-      ) {
-        next();
-      }
+  const handleCardClick = (
+    index: number
+  ) => {
+    if (index === activeIndex) {
+      return;
+    }
 
-      if (
-        event.key === "ArrowLeft"
-      ) {
-        previous();
-      }
-    };
-
-    window.addEventListener(
-      "keydown",
-      handleKeyDown
-    );
-
-    return () => {
-      window.removeEventListener(
-        "keydown",
-        handleKeyDown
-      );
-    };
-  }, []);
+    setActiveIndex(index);
+  };
 
 
   return (
     <section
       className="
+        relative
+        w-full
         overflow-hidden
         bg-[#f7f8f4]
-        py-14
-        sm:py-18
-        lg:py-24
-      "
-      onMouseEnter={() =>
-        setIsPaused(true)
-      }
-      onMouseLeave={() =>
-        setIsPaused(false)
-      }
-    >
 
-      {/* ========================================================
-          HEADER
-      ======================================================== */}
+        px-4
+        py-20
+
+        sm:px-6
+        sm:py-24
+
+        md:px-8
+        md:py-28
+
+        lg:px-12
+        lg:py-32
+      "
+    >
 
       <div
         className="
           mx-auto
+          w-full
           max-w-[1440px]
-          px-5
-          sm:px-8
-          lg:px-12
         "
       >
 
-        <div className="text-center">
+        {/* ==================================================
+            HEADER
+        ================================================== */}
 
-          {/* EYEBROW */}
+        <div
+          className="
+            relative
+            z-50
+            mb-10
+            text-center
+
+            sm:mb-12
+          "
+        >
 
           <div
             className="
-              mb-3
+              mb-4
               flex
               items-center
               justify-center
-              gap-3
+              gap-2.5
             "
           >
 
             <span
               className="
-                h-[5px]
-                w-[5px]
+                h-[6px]
+                w-[6px]
                 rounded-full
                 bg-[#08783f]
               "
             />
 
-            <p
+            <span
               className="
                 text-[9px]
                 font-semibold
                 uppercase
-                tracking-[0.26em]
+                tracking-[0.24em]
                 text-[#08783f]
-                sm:text-[10px]
               "
             >
-              Leadership
-            </p>
+              Our Leadership
+            </span>
 
           </div>
 
 
-          {/* HEADING */}
-
           <h2
             className="
-              mx-auto
-              max-w-[850px]
-              text-[clamp(36px,7vw,72px)]
-              font-medium
-              leading-[0.94]
+              text-[40px]
+              font-semibold
+              leading-[0.95]
               tracking-[-0.055em]
               text-[#123b2a]
+
+              sm:text-[52px]
+
+              md:text-[60px]
+
+              lg:text-[68px]
             "
           >
-            The people behind
-            <br className="hidden sm:block" />
-            <span className="sm:ml-2">
-              the vision.
+            People behind the{" "}
+            <span className="text-[#e50046]">
+              vision.
             </span>
           </h2>
 
-
-          {/* DESCRIPTION */}
 
           <p
             className="
               mx-auto
               mt-5
-              max-w-[600px]
-              text-[12px]
-              leading-5
-              text-[#647069]
-              sm:text-sm
-              sm:leading-6
+              max-w-[520px]
+              text-[13px]
+              leading-6
+              text-[#68746e]
+
+              sm:text-[14px]
+              sm:leading-7
             "
           >
-            Meet the people shaping the
-            learning environment, culture
-            and future of Dhanik Bharat.
+            The leadership shaping the
+            learning environment and
+            future of Dhanik Bharat.
           </p>
 
         </div>
 
-      </div>
 
-
-      {/* ========================================================
-          RESPONSIVE CAROUSEL
-      ======================================================== */}
-
-      <div
-        ref={carouselRef}
-        className="
-          relative
-          mx-auto
-          mt-10
-          h-[470px]
-          w-full
-          overflow-hidden
-          sm:mt-12
-          sm:h-[520px]
-          md:h-[560px]
-          lg:mt-14
-          lg:h-[610px]
-          lg:max-w-[1440px]
-        "
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-
-        {/* ======================================================
-            SOFT CENTER ATMOSPHERE
-        ====================================================== */}
+        {/* ==================================================
+            3D CAROUSEL
+        ================================================== */}
 
         <div
           className="
-            pointer-events-none
-            absolute
-            left-1/2
-            top-1/2
-            h-[280px]
-            w-[280px]
-            -translate-x-1/2
-            -translate-y-1/2
-            rounded-full
-            bg-[#08783f]/[0.025]
-            blur-[60px]
-            sm:h-[420px]
-            sm:w-[420px]
-            lg:h-[520px]
-            lg:w-[520px]
-            lg:blur-[80px]
+            relative
+            mx-auto
+
+            h-[360px]
+            w-full
+
+            sm:h-[440px]
+
+            md:h-[510px]
+
+            lg:h-[570px]
+
+            [perspective:1600px]
           "
-        />
-
-
-        {/* ======================================================
-            CARDS
-        ====================================================== */}
-
-        <div
-          className="
-            absolute
-            inset-0
-          "
-          style={{
-            perspective:
-              isMobile
-                ? "900px"
-                : "1400px",
-          }}
+          onTouchStart={
+            handleTouchStart
+          }
+          onTouchEnd={
+            handleTouchEnd
+          }
         >
+
+          {/* Ground shadow */}
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              left-1/2
+              top-[72%]
+
+              h-[80px]
+              w-[55%]
+
+              -translate-x-1/2
+
+              rounded-[50%]
+
+              bg-[#123b2a]/[0.08]
+
+              blur-[45px]
+            "
+          />
+
+
+          {/* CARDS */}
 
           {directors.map(
             (director, index) => {
-              const position =
-                getPosition(index);
+
+              let distance =
+                index -
+                activeIndex;
 
               /*
-               * On mobile we only need:
-               *
-               * -2
-               * -1
-               *  0
-               * +1
-               * +2
-               *
-               * This keeps the composition clean.
-               */
-
-              const visibleRange =
-                isMobile ? 2 : 3;
+                Circular wrapping
+                makes the carousel
+                continuous.
+              */
 
               if (
-                Math.abs(position) >
-                visibleRange
+                distance > 3
               ) {
-                return null;
+                distance -=
+                  directors.length;
               }
 
+              if (
+                distance < -3
+              ) {
+                distance +=
+                  directors.length;
+              }
+
+              const position =
+                getPosition(
+                  distance,
+                  screenWidth
+                );
 
               const isActive =
-                position === 0;
+                distance === 0;
 
-              const distance =
-                Math.abs(position);
-
-
-              /* -----------------------------------------------
-                 SCALE
-              ------------------------------------------------ */
-
-              let scale = 1;
-
-              if (distance === 1) {
-                scale = isMobile
-                  ? 0.76
-                  : isTablet
-                    ? 0.76
-                    : 0.79;
-              }
-
-              if (distance === 2) {
-                scale = isMobile
-                  ? 0.58
-                  : isTablet
-                    ? 0.62
-                    : 0.63;
-              }
-
-              if (distance === 3) {
-                scale = 0.50;
-              }
-
-
-              /* -----------------------------------------------
-                 VERTICAL DEPTH
-              ------------------------------------------------ */
-
-              let translateY = 0;
-
-              if (distance === 1) {
-                translateY =
-                  isMobile ? 24 : 28;
-              }
-
-              if (distance === 2) {
-                translateY =
-                  isMobile ? 50 : 62;
-              }
-
-              if (
-                distance === 3
-              ) {
-                translateY = 85;
-              }
-
-
-              /* -----------------------------------------------
-                 ROTATION
-              ------------------------------------------------ */
-
-              const rotateY =
-                position === 0
-                  ? 0
-                  : position > 0
-                    ? -10
-                    : 10;
-
-
-              /* -----------------------------------------------
-                 OPACITY
-              ------------------------------------------------ */
-
-              let opacity = 1;
-
-              if (distance === 1) {
-                opacity = isMobile
-                  ? 0.65
-                  : 0.72;
-              }
-
-              if (distance === 2) {
-                opacity = isMobile
-                  ? 0.28
-                  : 0.38;
-              }
-
-              if (distance === 3) {
-                opacity = 0.16;
-              }
-
-
-              /* -----------------------------------------------
-                 DEPTH
-              ------------------------------------------------ */
-
-              const zIndex =
-                50 -
-                distance * 10;
-
+              const isHovered =
+                hoveredIndex ===
+                index;
 
               return (
                 <button
-                  key={director.id}
+                  key={
+                    director.id
+                  }
                   type="button"
-                  aria-label={`View ${director.name}`}
                   onClick={() =>
-                    setActive(index)
+                    handleCardClick(
+                      index
+                    )
+                  }
+                  onMouseEnter={() =>
+                    setHoveredIndex(
+                      index
+                    )
+                  }
+                  onMouseLeave={() =>
+                    setHoveredIndex(
+                      null
+                    )
                   }
                   className="
                     absolute
                     left-1/2
                     top-1/2
+
+                    h-[270px]
+                    w-[185px]
+
+                    overflow-hidden
+
+                    rounded-[24px]
+
+                    border
+                    border-white/30
+
+                    bg-[#123b2a]
+
+                    p-0
+
                     outline-none
+
+                    transition-all
+                    duration-[1100ms]
+                    ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                    [transform-style:preserve-3d]
+
+                    focus-visible:ring-2
+                    focus-visible:ring-[#08783f]
+                    focus-visible:ring-offset-4
+
+                    sm:h-[350px]
+                    sm:w-[235px]
+
+                    md:h-[410px]
+                    md:w-[270px]
+
+                    lg:h-[450px]
+                    lg:w-[300px]
                   "
                   style={{
-                    width: cardWidth,
-                    height: cardHeight,
-
-                    zIndex,
-
-                    opacity,
-
                     transform: `
                       translate(-50%, -50%)
-                      translateX(${position * step}px)
-                      translateY(${translateY}px)
-                      rotateY(${rotateY}deg)
-                      scale(${scale})
+                      translate3d(
+                        ${position.x}px,
+                        ${position.y}px,
+                        ${position.z}px
+                      )
+                      rotateY(
+                        ${position.rotateY}deg
+                      )
+                      rotateZ(
+                        ${position.rotateZ}deg
+                      )
+                      scale(
+                        ${
+                          isHovered &&
+                          isActive
+                            ? position.scale *
+                              1.035
+                            : position.scale
+                        }
+                      )
                     `,
 
-                    transition:
-                      "transform 900ms cubic-bezier(0.22, 1, 0.36, 1), opacity 700ms ease",
+                    opacity:
+                      position.opacity,
 
-                    transformStyle:
-                      "preserve-3d",
+                    zIndex:
+                      isActive
+                        ? 30
+                        : 20 -
+                          Math.abs(
+                            distance
+                          ),
 
-                    WebkitTapHighlightColor:
-                      "transparent",
+                    boxShadow:
+                      isActive
+                        ? "0 35px 80px rgba(13, 53, 36, 0.25)"
+                        : "0 18px 45px rgba(13, 58, 39, 0.12)",
                   }}
                 >
 
-                  {/* =================================================
-                      CARD
-                  ================================================== */}
+                  {/* IMAGE */}
+
+                  <Image
+                    src={
+                      director.image
+                    }
+                    alt={
+                      director.name
+                    }
+                    fill
+                    sizes="
+                      (max-width: 640px) 185px,
+                      (max-width: 1024px) 270px,
+                      300px
+                    "
+                    className="
+                      object-cover
+
+                      transition-transform
+                      duration-[1200ms]
+                      ease-out
+                    "
+                  />
+
+
+                  {/* IMAGE TINT */}
 
                   <div
-                    className={`
-                      relative
-                      h-full
-                      w-full
-                      overflow-hidden
-                      rounded-[18px]
+                    className="
+                      absolute
+                      inset-0
+
                       bg-[#123b2a]
-                      sm:rounded-[22px]
-                      ${
+
+                      opacity-[0.08]
+
+                      transition-opacity
+                      duration-700
+                    "
+                    style={{
+                      opacity:
                         isActive
-                          ? "shadow-[0_28px_70px_rgba(18,59,42,0.20)]"
-                          : "shadow-[0_15px_40px_rgba(18,59,42,0.08)]"
-                      }
-                    `}
+                          ? 0.04
+                          : 0.22,
+                    }}
+                  />
+
+
+                  {/* BOTTOM GRADIENT */}
+
+                  <div
+                    className="
+                      pointer-events-none
+
+                      absolute
+                      inset-x-0
+                      bottom-0
+
+                      h-[55%]
+
+                      bg-gradient-to-t
+                      from-black/90
+                      via-black/40
+                      to-transparent
+                    "
+                  />
+
+
+                  {/* NUMBER */}
+
+                  <div
+                    className="
+                      absolute
+                      right-5
+                      top-5
+
+                      font-mono
+                      text-[9px]
+
+                      tracking-[0.18em]
+
+                      text-white/75
+                    "
+                  >
+                    {director.id}
+                  </div>
+
+
+                  {/* NAME */}
+
+                  <div
+                    className="
+                      absolute
+                      bottom-0
+                      left-0
+
+                      w-full
+
+                      p-5
+                      text-left
+
+                      sm:p-6
+
+                      md:p-7
+                    "
                   >
 
-                    {/* IMAGE */}
-
-                    <Image
-                      src={director.image}
-                      alt={director.name}
-                      fill
-                      priority={
-                        isActive
-                      }
-                      sizes={`
-                        ${
-                          isMobile
-                            ? "70vw"
-                            : "310px"
-                        }
-                      `}
+                    <p
                       className="
-                        object-cover
-                      "
-                    />
+                        mb-2
 
-
-                    {/* GRADIENT */}
-
-                    <div
-                      className="
-                        pointer-events-none
-                        absolute
-                        inset-0
-                        bg-gradient-to-t
-                        from-black/85
-                        via-black/15
-                        to-transparent
-                      "
-                    />
-
-
-                    {/* BORDER */}
-
-                    <div
-                      className="
-                        pointer-events-none
-                        absolute
-                        inset-0
-                        rounded-[18px]
-                        ring-1
-                        ring-inset
-                        ring-white/15
-                        sm:rounded-[22px]
-                      "
-                    />
-
-
-                    {/* NUMBER */}
-
-                    <div
-                      className="
-                        absolute
-                        right-4
-                        top-4
-                        rounded-full
-                        bg-black/20
-                        px-2.5
-                        py-1.5
                         text-[8px]
-                        font-medium
-                        tracking-[0.15em]
-                        text-white
-                        backdrop-blur-md
-                        sm:right-5
-                        sm:top-5
-                        sm:px-3
-                        sm:text-[10px]
+                        font-semibold
+                        uppercase
+                        tracking-[0.22em]
+
+                        text-[#c9f36a]
+
+                        sm:text-[9px]
                       "
                     >
-                      {director.id}
-                    </div>
+                      {director.role}
+                    </p>
 
 
-                    {/* NAME */}
-
-                    <div
+                    <h3
                       className="
-                        absolute
-                        bottom-0
-                        left-0
-                        right-0
-                        p-5
-                        text-left
-                        sm:p-7
+                        text-[18px]
+                        font-semibold
+                        leading-tight
+                        tracking-[-0.035em]
+
+                        text-white
+
+                        sm:text-[21px]
+
+                        md:text-[24px]
                       "
                     >
-
-                      <p
-                        className="
-                          mb-2
-                          text-[8px]
-                          font-semibold
-                          uppercase
-                          tracking-[0.22em]
-                          text-[#c9f36a]
-                          sm:text-[9px]
-                        "
-                      >
-                        {director.role}
-                      </p>
-
-                      <h3
-                        className="
-                          text-[22px]
-                          font-medium
-                          leading-none
-                          tracking-[-0.035em]
-                          text-white
-                          sm:text-[28px]
-                        "
-                      >
-                        {director.name}
-                      </h3>
-
-                    </div>
+                      {director.name}
+                    </h3>
 
                   </div>
+
+
+                  {/* CARD BORDER */}
+
+                  <div
+                    className="
+                      pointer-events-none
+                      absolute
+                      inset-0
+
+                      rounded-[24px]
+
+                      ring-1
+                      ring-inset
+                      ring-white/20
+                    "
+                  />
 
                 </button>
               );
@@ -828,21 +940,21 @@ export default function Directors() {
         </div>
 
 
-        {/* ======================================================
+        {/* ==================================================
             CONTROLS
-        ====================================================== */}
+        ================================================== */}
 
         <div
           className="
-            absolute
-            bottom-3
-            left-1/2
-            z-[80]
+            relative
+            z-50
+
+            -mt-3
+
             flex
-            -translate-x-1/2
             items-center
-            gap-4
-            sm:gap-7
+            justify-center
+            gap-5
           "
         >
 
@@ -856,69 +968,83 @@ export default function Directors() {
               flex
               h-10
               w-10
-              shrink-0
+
               items-center
               justify-center
+
               rounded-full
+
               border
               border-[#123b2a]/15
-              bg-[#f7f8f4]/95
+
+              bg-white
+
               text-[#123b2a]
-              shadow-sm
+
               transition-all
               duration-300
-              hover:border-[#123b2a]
+
               hover:bg-[#123b2a]
               hover:text-white
+
               sm:h-11
               sm:w-11
             "
           >
-            <ChevronLeft
-              size={17}
-              strokeWidth={1.5}
-            />
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
           </button>
 
 
-          {/* PROGRESS */}
+          {/* DOTS */}
 
           <div
             className="
               flex
-              max-w-[120px]
               items-center
-              gap-1
-              overflow-hidden
-              sm:max-w-none
-              sm:gap-1.5
+              gap-2
             "
           >
-
             {directors.map(
               (director, index) => (
                 <button
-                  key={director.id}
+                  key={
+                    director.id
+                  }
                   type="button"
                   onClick={() =>
-                    setActive(index)
+                    setActiveIndex(
+                      index
+                    )
                   }
-                  aria-label={`Go to director ${index + 1}`}
+                  aria-label={`Director ${index + 1}`}
                   className={`
-                    h-[2px]
-                    shrink-0
+                    h-[6px]
+                    rounded-full
+
                     transition-all
                     duration-500
+
                     ${
-                      active === index
-                        ? "w-6 bg-[#08783f] sm:w-8"
-                        : "w-2.5 bg-[#123b2a]/15 hover:bg-[#123b2a]/35 sm:w-3"
+                      index ===
+                      activeIndex
+                        ? "w-7 bg-[#08783f]"
+                        : "w-[6px] bg-[#123b2a]/20"
                     }
                   `}
                 />
               )
             )}
-
           </div>
 
 
@@ -932,151 +1058,86 @@ export default function Directors() {
               flex
               h-10
               w-10
-              shrink-0
+
               items-center
               justify-center
+
               rounded-full
+
               border
               border-[#123b2a]/15
-              bg-[#f7f8f4]/95
+
+              bg-white
+
               text-[#123b2a]
-              shadow-sm
+
               transition-all
               duration-300
-              hover:border-[#123b2a]
+
               hover:bg-[#123b2a]
               hover:text-white
+
               sm:h-11
               sm:w-11
             "
           >
-            <ChevronRight
-              size={17}
-              strokeWidth={1.5}
-            />
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
           </button>
 
         </div>
 
-      </div>
 
-
-      {/* ========================================================
-          MOBILE SWIPE HINT
-      ======================================================== */}
-
-      <div
-        className="
-          mt-1
-          flex
-          items-center
-          justify-center
-          gap-3
-          px-5
-          md:hidden
-        "
-      >
-
-        <span
-          className="
-            h-px
-            w-6
-            bg-[#123b2a]/15
-          "
-        />
-
-        <span
-          className="
-            text-[8px]
-            font-semibold
-            uppercase
-            tracking-[0.2em]
-            text-[#89958e]
-          "
-        >
-          Swipe to explore
-        </span>
-
-        <span
-          className="
-            h-px
-            w-6
-            bg-[#123b2a]/15
-          "
-        />
-
-      </div>
-
-
-      {/* ========================================================
-          FOOTER
-      ======================================================== */}
-
-      <div
-        className="
-          mx-auto
-          mt-8
-          max-w-[1400px]
-          px-5
-          sm:mt-10
-          sm:px-8
-          lg:mt-12
-          lg:px-12
-        "
-      >
+        {/* COUNTER */}
 
         <div
           className="
-            border-t
-            border-[#123b2a]/10
-            pt-5
-            sm:pt-6
+            mt-5
+            text-center
           "
         >
-
-          <div
+          <span
             className="
-              flex
-              flex-col
-              gap-3
-              sm:flex-row
-              sm:items-center
-              sm:justify-between
+              font-mono
+              text-[9px]
+              tracking-[0.18em]
+              text-[#08783f]
             "
           >
+            {directors[
+              activeIndex
+            ].id}
+          </span>
 
-            <p
-              className="
-                text-[8px]
-                font-semibold
-                uppercase
-                tracking-[0.2em]
-                text-[#647069]
-                sm:text-[10px]
-              "
-            >
-              Leadership · Vision · Education
-            </p>
+          <span
+            className="
+              mx-3
+              text-[#b4beb8]
+            "
+          >
+            /
+          </span>
 
-            <p
-              className="
-                max-w-[480px]
-                text-[11px]
-                leading-5
-                text-[#647069]
-                sm:text-right
-                sm:text-sm
-                sm:leading-6
-              "
-            >
-              The people behind the vision,
-              shaping an environment where
-              students can learn, grow and
-              prepare for what comes next.
-            </p>
-
-          </div>
-
+          <span
+            className="
+              font-mono
+              text-[9px]
+              tracking-[0.18em]
+              text-[#89958e]
+            "
+          >
+            07
+          </span>
         </div>
 
       </div>
