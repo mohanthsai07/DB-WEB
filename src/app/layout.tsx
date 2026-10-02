@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/layout/Navbar";
+import FooterSection from "@/components/layout/Footer";
+import AIChatbot from "@/components/ai/AIChatbot";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -22,7 +24,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
-        <Navbar  />{children}</body>
+        <Navbar />
+        {children}
+        <FooterSection />
+        <AIChatbot />
+      </body>
     </html>
   );
 }

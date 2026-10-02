@@ -1,21 +1,24 @@
 import Hero from "../components/home/Hero";
 import FounderMessage from "@/components/home/FounderMessage";
-import WhyDhanikBharat from "@/components/home/WhyDhanikBharat";
+import DraggableLife from "@/components/home/DraggableLife";
 import Programs from "@/components/home/Programs";
 import StudentReviews from "@/components/home/StudentReviews";
-import LifeAtDhanikBharat from "@/components/home/LifeAtDhanikBharat";
+import DhanikTimeline from "@/components/ui/dhanik-timeline";
 import Directors from "@/components/home/Directors";
+import AdmissionsCTA from "@/components/home/AdmissionsCTA";
 export default function HomePage() {
   
   return (
     <>
       <Hero />
       <FounderMessage/>
-            <WhyDhanikBharat />
+            <DraggableLife />
             <Programs />
             <StudentReviews />
-         <LifeAtDhanikBharat />
+             <DhanikTimeline />
+         {/* <LifeAtDhanikBharat /> */}
        <Directors />
+       <AdmissionsCTA />
       {/* <TrustStrip />
 
       
