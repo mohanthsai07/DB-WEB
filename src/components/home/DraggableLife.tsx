@@ -342,11 +342,7 @@ export default function DraggableLife() {
                   src={experience.image}
                   alt={experience.title}
                   fill
-                  sizes="
-                    (max-width: 640px) 72vw,
-                    (max-width: 1024px) 40vw,
-                    365px
-                  "
+                  sizes="(max-width: 640px) 72vw, (max-width: 1024px) 40vw, 365px"
                   draggable={false}
                   priority={index === 2}
                   className="

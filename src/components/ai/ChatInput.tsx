@@ -7,9 +7,10 @@ type ChatInputProps = {
   onSubmit: (value: string) => void;
   busy: boolean;
   inputRef?: React.Ref<HTMLTextAreaElement>;
+  inputTestId?: string;
 };
 
-export default function ChatInput({ onSubmit, busy, inputRef }: ChatInputProps) {
+export default function ChatInput({ onSubmit, busy, inputRef, inputTestId = "chat-input" }: ChatInputProps) {
   const [value, setValue] = useState("");
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -39,6 +40,7 @@ export default function ChatInput({ onSubmit, busy, inputRef }: ChatInputProps) 
         onKeyDown={handleKeyDown}
         placeholder="Ask about programs or admissions…"
         aria-label="Message DB Assistant"
+        data-testid={inputTestId}
         className="max-h-28 min-h-10 w-full resize-none bg-transparent px-2.5 py-2 text-[13px] leading-5 text-[#123b2a] outline-none placeholder:text-[#87928a]"
       />
       <div className="flex items-center justify-between pl-2.5">
@@ -47,6 +49,7 @@ export default function ChatInput({ onSubmit, busy, inputRef }: ChatInputProps) 
           type="submit"
           disabled={!value.trim() || busy}
           aria-label="Send message"
+          data-testid="chat-send"
           className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#08783f] text-white transition hover:bg-[#075f34] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f] disabled:cursor-not-allowed disabled:bg-[#dce5dc] disabled:text-[#77837a] motion-reduce:transition-none"
         >
           {busy ? <LoaderCircle size={16} className="animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <ArrowUp size={17} aria-hidden="true" />}

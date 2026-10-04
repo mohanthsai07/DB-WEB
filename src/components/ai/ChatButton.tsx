@@ -6,14 +6,17 @@ type ChatButtonProps = {
   open: boolean;
   onClick: () => void;
   buttonRef?: React.Ref<HTMLButtonElement>;
+  disabled?: boolean;
 };
 
-export default function ChatButton({ open, onClick, buttonRef }: ChatButtonProps) {
+export default function ChatButton({ open, onClick, buttonRef, disabled = false }: ChatButtonProps) {
   return (
     <button
       ref={buttonRef}
       type="button"
       onClick={onClick}
+      disabled={disabled}
+      data-testid="chat-launcher"
       aria-label={open ? "Close DB Assistant" : "Open DB Assistant"}
       aria-expanded={open}
       aria-controls="db-assistant-panel"

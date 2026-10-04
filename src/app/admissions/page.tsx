@@ -44,7 +44,7 @@ const steps = [
 export default function AdmissionsPage() {
   return (
     <main className="overflow-hidden bg-[#f7f8f4] text-[#123b2a]">
-      <section className="px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8 lg:pt-20">
+      {/* <section className="px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8 lg:pt-20">
         <div className="mx-auto grid max-w-[1380px] gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           <div className="animate-fade-up">
             <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#08783f]">
@@ -110,7 +110,7 @@ export default function AdmissionsPage() {
             ))}
           </ol>
         </div>
-      </section>
+      </section> */}
 
       <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" id="enquiry" aria-labelledby="enquiry-title">
         <div className="mx-auto grid max-w-[1200px] overflow-hidden rounded-[28px] border border-[#dfe6df] bg-white lg:grid-cols-[0.82fr_1.18fr] lg:rounded-[36px]">

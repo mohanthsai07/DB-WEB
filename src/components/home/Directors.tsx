@@ -10,6 +10,8 @@ interface Director {
   image: string;
 }
 
+type CardPosition = { x: number; y: number; z: number; rotateY: number; rotateZ: number; scale: number; opacity: number };
+
 const directors: Director[] = [
   {
     id: "01",
@@ -80,7 +82,7 @@ function getPosition(
     screenWidth >= 640 && screenWidth < 1024;
 
   if (isMobile) {
-    const positions: Record<number, any> = {
+    const positions: Record<number, CardPosition> = {
       [-3]: {
         x: -145,
         y: 35,
@@ -156,7 +158,7 @@ function getPosition(
   }
 
   if (isTablet) {
-    const positions: Record<number, any> = {
+    const positions: Record<number, CardPosition> = {
       [-3]: {
         x: -390,
         y: 45,
@@ -233,7 +235,7 @@ function getPosition(
 
   /* DESKTOP */
 
-  const positions: Record<number, any> = {
+  const positions: Record<number, CardPosition> = {
     [-3]: {
       x: -610,
       y: 58,
@@ -781,11 +783,7 @@ export default function Directors() {
                       director.name
                     }
                     fill
-                    sizes="
-                      (max-width: 640px) 185px,
-                      (max-width: 1024px) 270px,
-                      300px
-                    "
+                    sizes="(max-width: 640px) 185px, (max-width: 1024px) 270px, 300px"
                     className="
                       object-cover
 

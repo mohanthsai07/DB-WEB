@@ -27,6 +27,15 @@ function SafeAction({ action, onAction }: { action: AssistantAction; onAction: (
   const nav = navigation.find((entry) => entry.href === action.href)
     ?? navigation.find((entry) => entry.aliases.some((alias) => text.includes(alias)));
 
+  if (type === "lead_offer") {
+    return <button type="button" data-testid="talk-to-admissions" onClick={() => onAction("__DB_ASSISTANT_START_LEAD__")} className="inline-flex min-h-9 items-center gap-2 rounded-full border border-[#d5e2d6] bg-white px-3.5 text-[11px] font-semibold text-[#123b2a] transition hover:border-[#08783f] hover:text-[#08783f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f]">Talk to Admissions<ArrowUpRight size={13} aria-hidden="true" /></button>;
+  }
+  if (type === "whatsapp_link" && typeof action.href === "string") {
+    if (/^https:\/\/wa\.me\/\d{8,15}\?text=/.test(action.href)) {
+      return <a href={action.href} target="_blank" rel="noopener noreferrer" data-testid="send-whatsapp" className="inline-flex min-h-9 items-center gap-2 rounded-full bg-[#08783f] px-3.5 text-[11px] font-semibold text-white transition hover:bg-[#075f34] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f]">Send on WhatsApp<ArrowUpRight size={13} aria-hidden="true" /></a>;
+    }
+  }
+
   if (type === "prompt" && typeof action.value === "string" && action.value.trim()) {
     return <button type="button" onClick={() => onAction(action.value as string)} className="inline-flex min-h-9 items-center gap-2 rounded-full border border-[#d5e2d6] bg-white px-3.5 text-[11px] font-semibold text-[#123b2a] transition hover:border-[#08783f] hover:text-[#08783f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f] motion-reduce:transition-none">{typeof action.label === "string" ? action.label : "Continue"}<ArrowUpRight size={13} aria-hidden="true" /></button>;
   }
