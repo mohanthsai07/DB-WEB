@@ -28,7 +28,7 @@ const features = [
 
 export default function Hero() {
   return (
-    <section className="bg-[#f7f8f4] px-4 pb-8 pt-3 sm:px-6 lg:px-8">
+    <section className="bg-[#f7f8f4] px-4 pb-8 pt-9 sm:px-6 lg:px-8">
       <div className="relative mx-auto max-w-[1440px] overflow-hidden rounded-[28px] sm:rounded-[34px] lg:rounded-[38px]">
 
         {/* =====================================================
@@ -68,7 +68,7 @@ export default function Hero() {
             <div className="max-w-[610px]">
 
               {/* Eyebrow */}
-              <div className="mb-6 flex items-center gap-3">
+              <div className="mb-6  flex items-center gap-3">
 
                 <span className="h-1.5 w-1.5 rounded-full bg-[#08783f]" />
 

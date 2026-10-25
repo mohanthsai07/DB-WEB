@@ -8,7 +8,7 @@ export default function ProgramHero() {
       <div className="relative mx-auto grid max-w-[1320px] gap-12 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
         <div>
           <p className="mb-7 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#08783f]"><span className="h-1.5 w-1.5 rounded-full bg-[#08783f]" />Learning pathways</p>
-          <h1 className="max-w-[860px] text-[52px] font-semibold leading-[0.94] tracking-[-0.065em] text-[#123b2a] sm:text-[76px] lg:text-[100px]">Two directions.<br /><span className="text-[#08783f]">One strong</span> foundation.</h1>
+          <h1 className="max-w-[860px] text-[52px] font-semibold leading-[0.94] tracking-[-0.065em] text-[#123b2a] sm:text-[76px] lg:text-[100px]">Two directions.<br /><span className="text-[#e50046]">One strong</span> foundation.</h1>
         </div>
         <div className="max-w-[430px] pb-1 lg:justify-self-end">
           <p className="text-[15px] leading-7 text-[#647069] sm:text-[16px]">Integrated Intermediate education with focused preparation for the entrance pathway ahead.</p>

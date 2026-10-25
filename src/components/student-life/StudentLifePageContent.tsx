@@ -12,7 +12,7 @@ export default function StudentLifePageContent() {
                 <span className="h-px w-8 bg-[#08783f]" /> The student experience
               </p>
               <h1 className="max-w-[650px] text-[clamp(3.15rem,7.2vw,6.4rem)] font-semibold leading-[0.91] tracking-[-0.075em]">
-                A life of <span className="text-[#08783f]">learning</span>,
+                A life of <span className="text-[#e50046]">learning,</span>
                 <br className="hidden sm:block" /> in motion.
               </h1>
               <p className="mt-7 max-w-[470px] text-[15px] leading-7 text-[#647069] sm:text-base">

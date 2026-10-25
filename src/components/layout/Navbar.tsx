@@ -113,12 +113,14 @@ export default function Navbar() {
           aria-label="Dhanik Bharat Educational Institutions"
         >
           <Image
-            src="/logo/logo1.png"
+            src="/logo/logo.png"
             alt="Dhanik Bharat Educational Institutions"
-            width={225}
-            height={65}
+            width={300}
+            height={200
+
+            }
             priority
-            className="h-auto w-[185px] sm:w-[205px]"
+            className="h-auto w-[500px] sm:w-[300px]"
           />
         </Link>
 

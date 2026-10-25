@@ -130,7 +130,7 @@ const journeyItems: JourneyItem[] = [
     id: "HYDERABAD",
     number: "03",
     title: "HYDERABAD",
-    location: "Vijayawada",
+    location: "HYDERABAD",
     branch: "Dhanik Bharat Campus",
     description:
       "A campus environment where academic preparation, mentoring and student life come together.",

@@ -12,7 +12,7 @@ export default function AboutPageContent() {
                 <span className="h-px w-8 bg-[#08783f]" /> About Dhanik Bharat
               </p>
               <h1 className="max-w-[700px] text-[clamp(3.2rem,7.4vw,6.6rem)] font-semibold leading-[0.9] tracking-[-0.075em]">
-                Education for the <span className="text-[#08783f]">next chapter.</span>
+                Education for the <span className="text-[#e50046]">next chapter.</span>
               </h1>
               <p className="mt-7 max-w-[570px] text-[15px] leading-7 text-[#647069] sm:text-base">
                 Dhanik Bharat Educational Institutions focuses on the formative Intermediate years—Classes 11 and 12—when students begin shaping their academic direction.

@@ -16,7 +16,7 @@ const experiences = [
     title: "Comfort away from home.",
     description:
       "Thoughtfully arranged student accommodation with dedicated spaces to rest, study and recharge.",
-    image: "/images/life/hostel-room.jpg",
+    image: "/images/campus/hostel room.png",
   },
   {
     number: "02",
@@ -24,7 +24,7 @@ const experiences = [
     title: "Good food. Shared moments.",
     description:
       "A dedicated dining environment where students can enjoy their meals together as part of everyday campus life.",
-    image: "/images/life/food-mess.jpg",
+    image: "/images/campus/food.png",
   },
   {
     number: "03",
@@ -32,7 +32,7 @@ const experiences = [
     title: "Space to focus.",
     description:
       "Quiet spaces that give students room to revise, read, practise and stay focused outside regular classes.",
-    image: "/images/life/study-space.jpg",
+    image: "/images/campus/study room.png",
   },
   {
     number: "04",
@@ -40,7 +40,7 @@ const experiences = [
     title: "Life beyond the timetable.",
     description:
       "A supportive environment where students can interact, unwind and build friendships along the way.",
-    image: "/images/life/student-life.jpg",
+    image: "/images/campus/life.png",
   },
 ];
 
@@ -58,7 +58,7 @@ const cardPositions = [
   {
     left: "50%",
     top: "57%",
-    rotate: "-6deg",
+    rotate: "-20deg",
     width: "clamp(255px, 23vw, 350px)",
   },
   {
