@@ -44,13 +44,13 @@ const steps = [
 export default function AdmissionsPage() {
   return (
     <main className="overflow-hidden bg-[#f7f8f4] text-[#123b2a]">
-      {/* <section className="px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8 lg:pt-20">
-        <div className="mx-auto grid max-w-[1380px] gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
+      <section className="px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8 lg:pt-20">
+        <div className="subpage-container grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           <div className="animate-fade-up">
             <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#08783f]">
               <span className="h-px w-8 bg-[#08783f]" /> Admissions · Classes 11 &amp; 12
             </p>
-            <h1 className="max-w-[640px] text-[clamp(3rem,7vw,6.2rem)] font-semibold leading-[0.94] tracking-[-0.065em]">
+            <h1 className="subpage-title max-w-[640px]">
               A clear path to <span className="text-[#08783f]">what’s next.</span>
             </h1>
             <p className="mt-6 max-w-[520px] text-[16px] leading-7 text-[#59655f] sm:text-[18px] sm:leading-8">
@@ -60,7 +60,7 @@ export default function AdmissionsPage() {
               <a href="#enquiry" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#08783f] px-6 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#076b38] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
                 Begin an enquiry <span aria-hidden="true" className="ml-3 text-lg">↗</span>
               </a>
-              <Link href="/programs" className="text-sm font-semibold text-[#123b2a] underline decoration-[#b9c9bd] underline-offset-4 transition hover:text-[#08783f]">
+              <Link href="/programs" className="text-sm font-semibold text-[#123b2a] underline decoration-[#b9c9bd] underline-offset-4 transition hover:text-[#08783f] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
                 Compare programs
               </Link>
             </div>
@@ -86,12 +86,12 @@ export default function AdmissionsPage() {
         </div>
       </section>
 
-      <section className="bg-white px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="journey-title">
-        <div className="mx-auto max-w-[1200px]">
+      <section className="subpage-section bg-white px-4 sm:px-6 lg:px-8" aria-labelledby="journey-title">
+        <div className="subpage-container max-w-[1200px]">
           <div className="mb-11 grid gap-5 md:mb-14 md:grid-cols-[1fr_0.65fr] md:items-end">
             <div>
               <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#08783f]">The admissions journey</p>
-              <h2 id="journey-title" className="max-w-[660px] text-[clamp(2.3rem,5vw,4.2rem)] font-semibold leading-[0.98] tracking-[-0.06em]">
+              <h2 id="journey-title" className="subpage-section-title max-w-[660px]">
                 Five steps. One considered decision.
               </h2>
             </div>
@@ -110,16 +110,16 @@ export default function AdmissionsPage() {
             ))}
           </ol>
         </div>
-      </section> */}
+      </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" id="enquiry" aria-labelledby="enquiry-title">
-        <div className="mx-auto grid max-w-[1200px] overflow-hidden rounded-[28px] border border-[#dfe6df] bg-white lg:grid-cols-[0.82fr_1.18fr] lg:rounded-[36px]">
+      <section className="subpage-section px-4 sm:px-6 lg:px-8" id="enquiry" aria-labelledby="enquiry-title">
+        <div className="subpage-container grid overflow-hidden rounded-[24px] border border-[#dfe6df] bg-white lg:grid-cols-[0.82fr_1.18fr]">
           <div className="relative overflow-hidden bg-[#123b2a] p-7 text-white sm:p-10 lg:p-12">
             <div aria-hidden="true" className="absolute -right-20 -top-16 h-64 w-64 rounded-full border border-white/10" />
             <div aria-hidden="true" className="absolute -right-7 -top-3 h-40 w-40 rounded-full border border-[#c9f36a]/30" />
             <div className="relative">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#c9f36a]">Start a conversation</p>
-              <h2 id="enquiry-title" className="mt-5 max-w-[420px] text-[36px] font-semibold leading-[0.98] tracking-[-0.055em] sm:text-[48px]">
+              <h2 id="enquiry-title" className="subpage-section-title mt-5 max-w-[420px] text-white">
                 Let’s find the right direction.
               </h2>
               <p className="mt-5 max-w-[360px] text-sm leading-6 text-white/75">
@@ -128,8 +128,8 @@ export default function AdmissionsPage() {
               <div className="mt-10 border-t border-white/20 pt-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/60">Explore pathways</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <Link href="/programs" className="rounded-full border border-white/25 px-4 py-2 text-xs font-medium transition hover:border-[#c9f36a] hover:text-[#c9f36a]">MPC · JEE</Link>
-                  <Link href="/programs" className="rounded-full border border-white/25 px-4 py-2 text-xs font-medium transition hover:border-[#c9f36a] hover:text-[#c9f36a]">BiPC · NEET</Link>
+                  <Link href="/programs" className="rounded-full border border-white/25 px-4 py-2 text-xs font-medium transition hover:border-[#c9f36a] hover:text-[#c9f36a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c9f36a]">MPC · JEE</Link>
+                  <Link href="/programs" className="rounded-full border border-white/25 px-4 py-2 text-xs font-medium transition hover:border-[#c9f36a] hover:text-[#c9f36a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c9f36a]">BiPC · NEET</Link>
                 </div>
               </div>
             </div>

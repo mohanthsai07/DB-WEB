@@ -22,7 +22,7 @@ const PAGE_INFO: Record<string, Omit<PageContext, "pathname">> = {
   "/admissions": { pageTitle: "Admissions", pageType: "admissions" },
 };
 
-const DEFAULT_PROMPTS = ["Compare MPC + JEE and BiPC + NEET", "How do admissions work?", "What is student life like?", "Tell me about the campus"];
+const DEFAULT_PROMPTS = ["Explore Our Programs", "MPC or BiPC?", "JEE & NEET Preparation", "Campus Information", "Admission Enquiry"];
 const PAGE_PROMPTS: Record<string, string[]> = {
   "/programs": ["Compare MPC + JEE and BiPC + NEET", "Help me choose a pathway", "What does MPC include?", "What does BiPC include?"],
   "/campus": ["Tell me about the learning environment", "What is student life like?", "How do admissions work?", "Explore the programs"],
@@ -71,6 +71,8 @@ export default function AIChatbot() {
   const panelRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const busyRef = useRef(false);
+  const lastFailedMessageRef = useRef("");
   const conversationIdRef = useRef("");
   const context = useMemo<PageContext>(() => ({ pathname, ...(PAGE_INFO[pathname] ?? { pageTitle: "Dhanik Bharat", pageType: "other" }) }), [pathname]);
   const prompts = PAGE_PROMPTS[pathname] ?? DEFAULT_PROMPTS;
@@ -84,6 +86,7 @@ export default function AIChatbot() {
 
   const startLeadCapture = useCallback(async () => {
     if (leadStep !== "idle") return;
+    busyRef.current = true;
     setBusy(true);
     try {
       const response = await fetch("/api/leads", { cache: "no-store" });
@@ -106,6 +109,7 @@ export default function AIChatbot() {
         ? "Ippudu enquiry flow open cheyyalekapoyanu. Konchem sepu tarvata try cheyyandi."
         : "I couldn’t open the enquiry flow just now. Please try again shortly.");
     } finally {
+      busyRef.current = false;
       setBusy(false);
     }
   }, [appendAssistant, context, leadStep, messages]);
@@ -190,6 +194,7 @@ export default function AIChatbot() {
         setLeadDraft(null);
         appendAssistant(tinglish ? "Enquiry message prepare cheyyalekapoyanu. Konchem sepu tarvata try cheyyandi." : "I couldn’t prepare the enquiry message just now. Please try again shortly.");
       } finally {
+        busyRef.current = false;
         setBusy(false);
       }
     }
@@ -244,6 +249,7 @@ export default function AIChatbot() {
   const startNewConversation = useCallback(() => {
     abortRef.current?.abort();
     abortRef.current = null;
+    busyRef.current = false;
     setMessages([]);
     setLeadDraft(null);
     setLeadStep("idle");
@@ -256,7 +262,7 @@ export default function AIChatbot() {
 
   const sendMessage = useCallback(async (content: string) => {
     const text = content.trim();
-    if (!text || busy) return;
+    if (!text || busyRef.current) return;
     if (text === START_LEAD_CAPTURE) {
       await startLeadCapture();
       return;
@@ -279,6 +285,7 @@ export default function AIChatbot() {
     const assistantMessage: ChatMessageData = { id: makeId(), role: "assistant", content: "" };
     const conversation = [...messages, userMessage];
     setMessages([...conversation, assistantMessage]);
+    busyRef.current = true;
     setBusy(true);
     const controller = new AbortController();
     abortRef.current = controller;
@@ -307,7 +314,12 @@ export default function AIChatbot() {
       const applyLine = (line: string) => {
         const raw = line.trim();
         if (!raw) return;
-        const record = JSON.parse(raw) as { type?: string; text?: string; actions?: unknown; rows?: unknown; description?: unknown };
+        let record: { type?: string; text?: string; actions?: unknown; rows?: unknown; description?: unknown };
+        try {
+          record = JSON.parse(raw) as typeof record;
+        } catch {
+          return;
+        }
         if (record.type === "text" && typeof record.text === "string") {
           setMessages((current) => current.map((item) => item.id === assistantMessage.id ? { ...item, content: item.content + record.text } : item));
         } else if (record.type === "actions" && Array.isArray(record.actions)) {
@@ -332,21 +344,24 @@ export default function AIChatbot() {
         if (done) break;
       }
       if (pending.trim()) applyLine(pending);
+      lastFailedMessageRef.current = "";
     } catch (caught) {
       if (caught instanceof DOMException && caught.name === "AbortError") return;
       const message = caught instanceof Error ? caught.message : "Something went wrong. Please try again.";
       setMessages((current) => current.filter((item) => item.id !== assistantMessage.id));
+      lastFailedMessageRef.current = text;
       setError(message);
     } finally {
       if (abortRef.current === controller) {
         abortRef.current = null;
+        busyRef.current = false;
         setBusy(false);
       }
     }
-  }, [busy, context, handleLeadReply, leadStep, messages, startLeadCapture]);
+  }, [context, handleLeadReply, leadStep, messages, startLeadCapture]);
 
   return <div className="fixed bottom-4 right-4 z-[130] isolate sm:bottom-6 sm:right-6" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
-    {open && <ChatWindow messages={messages} prompts={prompts} busy={busy} error={error} minimized={minimized} onMinimize={() => setMinimized((value) => !value)} onClose={close} onNewConversation={startNewConversation} onSubmit={sendMessage} onAction={sendMessage} inputRef={inputRef} panelRef={panelRef} messagesRef={messagesRef} inputTestId={inputTestId} />}
+    {open && <ChatWindow messages={messages} prompts={prompts} busy={busy} error={error} minimized={minimized} onMinimize={() => setMinimized((value) => !value)} onClose={close} onNewConversation={startNewConversation} onSubmit={sendMessage} onAction={sendMessage} onRetry={() => { const failed = lastFailedMessageRef.current; if (failed) { setError(""); void sendMessage(failed); } }} inputRef={inputRef} panelRef={panelRef} messagesRef={messagesRef} inputTestId={inputTestId} />}
     {!open && <ChatButton open={false} disabled={!hydrated} onClick={() => { setOpen(true); setMinimized(false); }} buttonRef={launcherRef} />}
   </div>;
 }

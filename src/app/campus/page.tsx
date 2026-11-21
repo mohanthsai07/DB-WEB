@@ -38,7 +38,7 @@ const campuses: Campus[] = [
     area: "Hyderabad",
     description:
       "Explore our Hyderabad location and enquire about available programmes and campus facilities.",
-    image: "/images/campus/hyderabad.jpg",
+    image: "/images/campus/environment.png",
     mapsQuery: "Dhanik Bharat Educational Institutions Hyderabad",
   },
   {
@@ -48,7 +48,7 @@ const campuses: Campus[] = [
     area: "Vijayawada",
     description:
       "Discover our Vijayawada location and connect with admissions for programme information.",
-    image: "/images/campus/vijayawada.jpg",
+    image: "/images/campus/life.png",
     mapsQuery: "Dhanik Bharat Educational Institutions Vijayawada",
   },
   {
@@ -58,7 +58,7 @@ const campuses: Campus[] = [
     area: "Visakhapatnam",
     description:
       "Explore our Visakhapatnam location and ask admissions about current campus arrangements.",
-    image: "/images/campus/visakhapatnam.jpg",
+    image: "/images/campus/food.png",
     mapsQuery: "Dhanik Bharat Junior College PM Palem Visakhapatnam",
   },
   {
@@ -68,7 +68,7 @@ const campuses: Campus[] = [
     area: "Guntur",
     description:
       "Find our Guntur location and confirm the latest address and visit details with admissions.",
-    image: "/images/campus/guntur.jpg",
+    image: "/images/campus/study room.png",
     mapsQuery: "Dhanik Bharat Junior College Guntur Andhra Pradesh",
   },
 ];
@@ -107,7 +107,7 @@ function CampusCard({ campus }: { campus: Campus }) {
           {campus.state}
         </p>
 
-        <h2 className="mt-3 text-[27px] font-semibold leading-[1] tracking-[-0.055em] text-[#123b2a] sm:text-[30px]">
+        <h2 className="mt-3 text-[22px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#123b2a] sm:text-[24px]">
           {campus.city}
         </h2>
 
@@ -152,14 +152,14 @@ export default function CampusPage() {
     <main className="overflow-hidden bg-[#f7f8f4]">
       {/* Editorial heading */}
       <section className="px-5 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-24 lg:px-12 lg:pt-28">
-        <div className="mx-auto max-w-[1320px]">
+        <div className="subpage-container">
           <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.26em] text-[#08783f]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#08783f]" />
             Explore Dhanik Bharat
           </p>
 
           <div className="mt-7 grid gap-7 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-            <h1 className="max-w-[900px] text-[clamp(3.4rem,8vw,7.4rem)] font-semibold leading-[0.86] tracking-[-0.08em] text-[#123b2a]">
+            <h1 className="subpage-title max-w-[900px]">
               Find your
               <br />
               <span className="text-[#e50046]">place to grow.</span>
@@ -205,13 +205,13 @@ export default function CampusPage() {
         id="campus-list"
         className="scroll-mt-8 px-5 pb-20 sm:px-8 sm:pb-24 lg:px-12 lg:pb-28"
       >
-        <div className="mx-auto max-w-[1320px]">
+        <div className="subpage-container">
           <div className="mb-8 flex flex-col gap-3 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">
                 Our locations
               </p>
-              <h2 className="mt-3 text-[32px] font-semibold leading-none tracking-[-0.06em] text-[#123b2a] sm:text-[42px]">
+              <h2 className="subpage-section-title mt-3">
                 Explore our campuses.
               </h2>
             </div>
@@ -237,14 +237,14 @@ export default function CampusPage() {
       </section>
 
       {/* Admissions contact */}
-      <section className="bg-[#123b2a] px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+      <section className="subpage-section bg-[#123b2a] px-5 text-white sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-[1320px] flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-[720px]">
             <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#c9f36a]">
               Need more information?
             </p>
 
-            <h2 className="mt-5 text-[clamp(2.6rem,6vw,5.5rem)] font-semibold leading-[0.9] tracking-[-0.07em]">
+            <h2 className="subpage-section-title mt-5">
               Your next chapter
               <br />
               starts here.

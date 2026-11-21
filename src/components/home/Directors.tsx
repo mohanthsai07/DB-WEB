@@ -23,37 +23,37 @@ const directors: Director[] = [
     id: "02",
     name: "Director Name",
     role: "Director",
-    image: "/images/leadership/director-02.jpg",
+    image: "/images/directors/S.png",
   },
   {
     id: "03",
     name: "Director Name",
     role: "Director",
-    image: "/images/leadership/director-03.jpg",
+    image: "/images/directors/S.png",
   },
   {
     id: "04",
     name: "Director Name",
     role: "Director",
-    image: "/images/leadership/director-04.jpg",
+    image: "/images/directors/S.png",
   },
   {
     id: "05",
     name: "Director Name",
     role: "Director",
-    image: "/images/leadership/director-05.jpg",
+    image: "/images/directors/S.png",
   },
   {
     id: "06",
     name: "Director Name",
     role: "Director",
-    image: "/images/leadership/director-06.jpg",
+    image: "/images/directors/S.png",
   },
   {
     id: "07",
     name: "Director Name",
     role: "Director",
-    image: "/images/leadership/director-07.jpg",
+    image: "/images/directors/S.png",
   },
 ];
 

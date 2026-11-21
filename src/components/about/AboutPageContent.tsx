@@ -5,13 +5,13 @@ export default function AboutPageContent() {
   return (
     <main className="bg-[#f7f8f4] text-[#123b2a]">
       <section className="px-5 pb-16 pt-14 sm:px-8 sm:pb-24 sm:pt-20 lg:px-12 lg:pb-28 lg:pt-24">
-        <div className="mx-auto max-w-[1320px]">
+        <div className="subpage-container">
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
             <div>
               <p className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">
                 <span className="h-px w-8 bg-[#08783f]" /> About Dhanik Bharat
               </p>
-              <h1 className="max-w-[700px] text-[clamp(3.2rem,7.4vw,6.6rem)] font-semibold leading-[0.9] tracking-[-0.075em]">
+              <h1 className="subpage-title max-w-[700px]">
                 Education for the <span className="text-[#e50046]">next chapter.</span>
               </h1>
               <p className="mt-7 max-w-[570px] text-[15px] leading-7 text-[#647069] sm:text-base">
@@ -46,11 +46,11 @@ export default function AboutPageContent() {
         </div>
       </section>
 
-      <section className="bg-[#123b2a] px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-        <div className="mx-auto grid max-w-[1240px] gap-10 md:grid-cols-[0.7fr_1.3fr] md:gap-16">
+      <section className="subpage-section bg-[#123b2a] px-5 text-white sm:px-8 lg:px-12">
+        <div className="subpage-container grid gap-10 md:grid-cols-[0.7fr_1.3fr] md:gap-16">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#c9f36a]">A vision for education</p>
-            <h2 className="mt-5 max-w-[360px] text-4xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-5xl">Rooted in values. Ready for what’s next.</h2>
+            <h2 className="subpage-section-title mt-5 max-w-[360px]">Rooted in values. Ready for what’s next.</h2>
           </div>
           <div className="max-w-[720px] text-[15px] leading-7 text-white/75 sm:text-base">
             <p>
@@ -67,11 +67,11 @@ export default function AboutPageContent() {
         </div>
       </section>
 
-      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-        <div className="mx-auto flex max-w-[1240px] flex-col justify-between gap-8 sm:flex-row sm:items-end">
+      <section className="subpage-section px-5 sm:px-8 lg:px-12">
+        <div className="subpage-container flex flex-col justify-between gap-8 sm:flex-row sm:items-end">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">Continue exploring</p>
-            <h2 className="mt-4 max-w-[540px] text-3xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-5xl">Find the academic path that fits.</h2>
+            <h2 className="subpage-section-title mt-4 max-w-[540px]">Find the academic path that fits.</h2>
           </div>
           <Link href="/programs" className="group inline-flex items-center gap-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
             Explore programs <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>

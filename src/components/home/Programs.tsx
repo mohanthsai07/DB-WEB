@@ -84,7 +84,7 @@ export default function Programs() {
             <Link
               key={program.number}
               href={program.href}
-              className="group relative block overflow-hidden rounded-[24px] sm:rounded-[28px]"
+              className="group relative block overflow-hidden rounded-[24px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08783f] focus-visible:ring-offset-4 sm:rounded-[28px]"
             >
 
               {/* =================================================

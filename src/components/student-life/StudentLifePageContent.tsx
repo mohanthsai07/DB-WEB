@@ -5,13 +5,13 @@ export default function StudentLifePageContent() {
   return (
     <main className="overflow-hidden bg-[#f7f8f4] text-[#123b2a]">
       <section className="relative px-5 pb-16 pt-14 sm:px-8 sm:pb-24 sm:pt-20 lg:px-12 lg:pb-28 lg:pt-24">
-        <div className="mx-auto max-w-[1320px]">
+        <div className="subpage-container">
           <div className="grid items-end gap-9 lg:grid-cols-[0.86fr_1.14fr] lg:gap-16">
             <div className="pb-2">
               <p className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">
                 <span className="h-px w-8 bg-[#08783f]" /> The student experience
               </p>
-              <h1 className="max-w-[650px] text-[clamp(3.15rem,7.2vw,6.4rem)] font-semibold leading-[0.91] tracking-[-0.075em]">
+              <h1 className="subpage-title max-w-[650px]">
                 A life of <span className="text-[#e50046]">learning,</span>
                 <br className="hidden sm:block" /> in motion.
               </h1>
@@ -51,11 +51,11 @@ export default function StudentLifePageContent() {
         </div>
       </section>
 
-      <section className="border-y border-[#dce4de] bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-        <div className="mx-auto grid max-w-[1240px] gap-9 md:grid-cols-[0.65fr_1.35fr] md:gap-16">
+      <section className="subpage-section border-y border-[#dce4de] bg-white px-5 sm:px-8 lg:px-12">
+        <div className="subpage-container grid gap-9 md:grid-cols-[0.65fr_1.35fr] md:gap-16">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">A moment, in focus</p>
-            <h2 className="mt-4 max-w-[300px] text-3xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-4xl">The everyday, as it happens.</h2>
+            <h2 className="subpage-section-title mt-4 max-w-[300px]">The everyday, as it happens.</h2>
           </div>
           <div>
             <div className="overflow-hidden rounded-[22px] bg-[#10291d]">
@@ -79,17 +79,17 @@ export default function StudentLifePageContent() {
         </div>
       </section>
 
-      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-        <div className="mx-auto flex max-w-[1240px] flex-col justify-between gap-8 border-b border-[#cbd7cf] pb-10 sm:flex-row sm:items-end">
+      <section className="subpage-section px-5 sm:px-8 lg:px-12">
+        <div className="subpage-container flex flex-col justify-between gap-8 border-b border-[#cbd7cf] pb-10 sm:flex-row sm:items-end">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">Explore more</p>
-            <h2 className="mt-4 max-w-[580px] text-3xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-5xl">The right environment starts with the right questions.</h2>
+            <h2 className="subpage-section-title mt-4 max-w-[580px]">The right environment starts with the right questions.</h2>
           </div>
           <Link href="/campus" className="group inline-flex items-center gap-3 text-sm font-semibold text-[#123b2a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
             Explore campus <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
           </Link>
         </div>
-        <p className="mx-auto mt-6 max-w-[1240px] text-sm leading-6 text-[#647069]">For current information about the learning environment and available programs, contact our admissions team.</p>
+        <p className="subpage-container mt-6 text-sm leading-6 text-[#647069]">For current information about the learning environment and available programs, contact our admissions team.</p>
       </section>
     </main>
   );

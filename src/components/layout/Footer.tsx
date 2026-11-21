@@ -12,6 +12,8 @@ const exploreLinks = [
   { label: "Campus", href: "/campus" },
   { label: "Student life", href: "/student-life" },
   { label: "Events", href: "/events" },
+  { label: "Resources", href: "/resources" },
+  { label: "Results", href: "/results" },
 ];
 
 function FooterLinks({

@@ -6,11 +6,11 @@ const principles = [
 
 export default function ProgramFeatures() {
   return (
-    <section className="bg-[#123b2a] px-5 py-20 text-white sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+    <section className="subpage-section bg-[#123b2a] px-5 text-white sm:px-8 lg:px-12">
       <div className="mx-auto max-w-[1320px]">
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#c9f36a]">How the pathways connect</p>
-          <h2 className="max-w-[780px] text-[39px] font-semibold leading-[1] tracking-[-0.055em] sm:text-[56px]">Intermediate learning with a focused entrance direction.</h2>
+          <h2 className="subpage-section-title max-w-[780px] text-white">Intermediate learning with a focused entrance direction.</h2>
         </div>
         <ol className="mt-14 grid border-t border-white/20 md:grid-cols-3">
           {principles.map((item) => (

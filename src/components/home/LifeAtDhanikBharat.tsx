@@ -295,7 +295,7 @@ export default function LifeAtDhanikBharat() {
             >
               Explore the spaces and everyday
               experiences that become part of a
-              student's life at Dhanik Bharat.
+              student&apos;s life at Dhanik Bharat.
             </p>
 
           </div>

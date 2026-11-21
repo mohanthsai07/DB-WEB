@@ -1,722 +1,366 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
-import Link from "next/link";
-import { getStudentVideoPoster } from "@/data/generated/student-video-posters";
 import {
   ArrowLeft,
   ArrowRight,
   Play,
-  Volume2,
-  VolumeX,
+  Quote,
+  X,
 } from "lucide-react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type MouseEvent,
+} from "react";
 
-const reviews = [
+export type StudentReview = {
+  id: string;
+  label: string;
+  title: string;
+  description: string;
+  image?: string;
+  video?: string;
+  poster?: string;
+};
+
+/**
+ * Keep this list intentionally honest until verified student stories are supplied.
+ * The optional media fields are the extension point for attributed stories.
+ */
+export const studentReviewCards: StudentReview[] = [
   {
-    id: "01",
-    name: "Student Name",
-    className: "Class 12 · MPC",
-    title: "My journey at Dhanik Bharat",
+    id: "preview-01",
+    label: "Student video",
+    title: "Hear from a student",
     description:
-      "Hear directly from our students about their learning experience, teachers and everyday life at Dhanik Bharat.",
+      "Dhanik Bharat student experience",
     video: "/images/students/1.mp4",
   },
   {
-    id: "02",
-    name: "Student Name",
-    className: "Class 12 · BiPC",
-    title: "Learning with confidence",
+    id: "preview-02",
+    label: "Student story preview",
+    title: "Learning, day by day",
     description:
-      "A student's perspective on learning, preparation and the support they receive throughout their journey.",
-    video: "/images/students/2.mp4",
+      "A verified student story can be added here.",
   },
   {
-    id: "03",
-    name: "Student Name",
-    className: "Class 11 · MPC",
-    title: "Finding clarity in my preparation",
+    id: "preview-03",
+    label: "Student story preview",
+    title: "Growing with the right support",
     description:
-      "Discover how students experience the academic environment and approach their preparation at Dhanik Bharat.",
-    video: "/images/students/3.mp4",
+      "A verified student story can be added here.",
   },
   {
-    id: "04",
-    name: "Student Name",
-    className: "Class 12 · BiPC",
-    title: "More than just academics",
+    id: "preview-04",
+    label: "Student story preview",
+    title: "More room to discover",
     description:
-      "A glimpse into the student experience beyond academics — from mentoring to everyday campus life.",
-    video: "/images/students/4.mp4",
+      "A verified student story can be added here.",
+  },
+  {
+    id: "preview-05",
+    label: "Student story preview",
+    title: "Your story could be next",
+    description:
+      "A verified student story can be added here.",
   },
 ];
 
+function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 export default function StudentReviews() {
-  const [active, setActive] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(true);
+  const railRef = useRef<HTMLDivElement>(null);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedReview, setSelectedReview] = useState<StudentReview | null>(
+    null,
+  );
 
-  const desktopVideoRef = useRef<HTMLVideoElement>(null);
-  const mobileVideoRef = useRef<HTMLVideoElement>(null);
+  const scrollToCard = useCallback((index: number) => {
+    const rail = railRef.current;
+    if (!rail) return;
 
-  const current = reviews[active];
-  const currentPoster = getStudentVideoPoster(current.video);
+    const nextIndex =
+      index < 0
+        ? studentReviewCards.length - 1
+        : index >= studentReviewCards.length
+          ? 0
+          : index;
+    const card = rail.children[nextIndex] as HTMLElement | undefined;
+    if (!card) return;
 
-  /* =========================================================
-     CHANGE STORY
-  ========================================================= */
+    setActiveIndex(nextIndex);
+    rail.scrollTo({
+      left: card.offsetLeft - rail.offsetLeft,
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+  }, []);
 
-  const changeStory = (index: number) => {
-    if (index === active) return;
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
 
-    setPlaying(false);
-    setActive(index);
+    const updateActiveCard = () => {
+      const cards = Array.from(rail.children) as HTMLElement[];
+      const nearest = cards.reduce(
+        (best, card, index) => {
+          const distance = Math.abs(card.offsetLeft - rail.scrollLeft);
+          return distance < best.distance ? { distance, index } : best;
+        },
+        { distance: Number.POSITIVE_INFINITY, index: 0 },
+      );
+      setActiveIndex(nearest.index);
+    };
 
-    for (const video of [desktopVideoRef.current, mobileVideoRef.current]) {
-      if (video) {
-        video.pause();
-        video.currentTime = 0;
-      }
+    rail.addEventListener("scroll", updateActiveCard, { passive: true });
+    return () => rail.removeEventListener("scroll", updateActiveCard);
+  }, []);
+
+  useEffect(() => {
+    if (!selectedReview) return;
+
+    const closeOnEscape = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedReview(null);
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    const video = modalVideoRef.current;
+    if (video) {
+      void video.play().catch(() => {});
     }
-  };
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [selectedReview]);
 
-  const previous = () => {
-    const index =
-      active === 0 ? reviews.length - 1 : active - 1;
-
-    changeStory(index);
-  };
-
-  const next = () => {
-    const index =
-      active === reviews.length - 1 ? 0 : active + 1;
-
-    changeStory(index);
-  };
-
-  /* =========================================================
-     PLAY / PAUSE
-  ========================================================= */
-
-  const togglePlay = async (video: HTMLVideoElement | null) => {
-    if (!video) return;
-
-    if (video.paused) {
-      try {
-        await video.play();
-        setPlaying(true);
-      } catch {
-        setPlaying(false);
-      }
-    } else {
+  useEffect(() => {
+    if (selectedReview) return;
+    const video = modalVideoRef.current;
+    if (video) {
       video.pause();
-      setPlaying(false);
+      video.currentTime = 0;
+    }
+  }, [selectedReview]);
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      scrollToCard(activeIndex - 1);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      scrollToCard(activeIndex + 1);
     }
   };
 
-  /* =========================================================
-     MUTE
-  ========================================================= */
+  const openReview = (review: StudentReview) => {
+    if (review.video) setSelectedReview(review);
+  };
 
-  const toggleMute = (video: HTMLVideoElement | null) => {
-    if (!video) return;
+  const closeReview = () => {
+    modalVideoRef.current?.pause();
+    if (modalVideoRef.current) modalVideoRef.current.currentTime = 0;
+    setSelectedReview(null);
+  };
 
-    video.muted = !video.muted;
-    setMuted(video.muted);
+  const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) closeReview();
   };
 
   return (
-    <section className="overflow-hidden bg-[#f7f8f4] py-20 sm:py-24 lg:py-28">
-
+    <section
+      aria-labelledby="student-reviews-heading"
+      className="overflow-hidden bg-[#f7f8f4] py-20 sm:py-24 lg:py-28"
+    >
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
-
-        {/* =====================================================
-            HEADER
-        ====================================================== */}
-
-        <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
-
-          <div className="max-w-[760px]">
-
+        <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+          <div className="max-w-[740px]">
             <div className="mb-5 flex items-center gap-3">
-
-              <span className="h-[6px] w-[6px] rounded-full bg-[#08783f]" />
-
-              <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#08783f]">
-                Student Voices
+              <span className="h-1.5 w-1.5 rounded-full bg-[#08783f]" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#08783f]">
+                Student voices
               </span>
-
             </div>
-
-            <h2 className="text-[42px] font-semibold leading-[0.98] tracking-[-0.055em] text-[#123b2a] sm:text-[56px] lg:text-[68px]">
-
-              Hear it from the
+            <h2
+              id="student-reviews-heading"
+              className="text-[40px] font-semibold leading-[0.98] tracking-[-0.05em] text-[#123b2a] sm:text-[48px] lg:text-[56px]"
+            >
+              Hear It From
               <br />
-
-              <span className="text-[#e50046]">
-                students themselves.
-              </span>
-
+              <span className="text-[#e50046]">Our Students</span>
             </h2>
-
           </div>
-
-
-          <p className="max-w-[390px] text-[14px] leading-6 text-[#647069] lg:pb-1">
-            Real perspectives from students experiencing the
-            academic environment, mentoring and everyday life
-            at Dhanik Bharat.
+          <p className="max-w-[360px] text-sm leading-6 text-[#647069] lg:pb-1">
+            Real experiences. Honest perspectives. Stories from the Dhanik
+            learning community.
           </p>
-
         </div>
 
+        <div className="mt-10 flex items-center justify-between gap-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#647069]">
+            Preview collection
+          </p>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              aria-label="Previous student story"
+              onClick={() => scrollToCard(activeIndex - 1)}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-[#d6dfd6] text-[#123b2a] transition-colors hover:border-[#123b2a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f]"
+            >
+              <ArrowLeft size={17} strokeWidth={1.7} />
+            </button>
+            <button
+              type="button"
+              aria-label="Next student story"
+              onClick={() => scrollToCard(activeIndex + 1)}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#123b2a] text-white transition-colors hover:bg-[#08783f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f]"
+            >
+              <ArrowRight size={17} strokeWidth={1.7} />
+            </button>
+          </div>
+        </div>
 
-        {/* =====================================================
-            DESKTOP EXPERIENCE
-        ====================================================== */}
-
-        <div className="mt-10 hidden lg:block">
-
-          <div className="grid min-h-[650px] grid-cols-[38%_62%] overflow-hidden rounded-[28px] bg-[#123b2a]">
-
-            {/* =================================================
-                VERTICAL VIDEO
-            ================================================= */}
-
-            <div className="relative flex items-center justify-center overflow-hidden bg-[#071f15] p-8 xl:p-10">
-
-              <div className="relative h-[590px] aspect-[9/16] overflow-hidden rounded-[18px] bg-black">
-
-                <video
-                  ref={desktopVideoRef}
-                  key={current.video}
-                  src={current.video}
-                  poster={currentPoster}
-                  playsInline
-                  preload="metadata"
-                  muted={muted}
-                  onPlay={() => setPlaying(true)}
-                  onPause={() => setPlaying(false)}
-                  className="h-full w-full object-cover"
-                />
-
-                {/* VIDEO GRADIENT */}
-
-                <div
-                  className={`pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/10 transition-opacity duration-500 ${
-                    playing ? "opacity-100" : "opacity-80"
-                  }`}
-                />
-
-
-                {/* TOP LABEL */}
-
-                <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
-
-                  <div className="flex items-center gap-2">
-
-                    <span className="font-mono text-[9px] text-white/70">
-                      {current.id}
-                    </span>
-
-                    <span className="h-px w-5 bg-white/40" />
-
-                    <span className="text-[8px] uppercase tracking-[0.16em] text-white/60">
-                      Student Voice
-                    </span>
-
-                  </div>
-
-
-                  <button
-                    type="button"
-                    onClick={() => toggleMute(desktopVideoRef.current)}
-                    aria-label={muted ? "Unmute video" : "Mute video"}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-md"
-                  >
-                    {muted ? (
-                      <VolumeX size={13} strokeWidth={1.5} />
-                    ) : (
-                      <Volume2 size={13} strokeWidth={1.5} />
-                    )}
-                  </button>
-
-                </div>
-
-
-                {/* PLAY BUTTON */}
-
-                {!playing && (
-                  <button
-                    type="button"
-                    onClick={() => togglePlay(desktopVideoRef.current)}
-                    aria-label="Play student review"
-                    className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#123b2a] shadow-xl transition-transform duration-300 hover:scale-105"
-                  >
-                    <Play
-                      size={18}
-                      fill="currentColor"
-                      strokeWidth={0}
-                      className="ml-1"
-                    />
-                  </button>
-                )}
-
-
-                {/* VIDEO CONTROLS */}
-
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-
-                  <span className="text-[8px] uppercase tracking-[0.15em] text-white/60">
-                    Watch story
-                  </span>
-
-                  <span className="text-[8px] uppercase tracking-[0.15em] text-white/40">
-                    9 : 16
-                  </span>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            {/* =================================================
-                RIGHT INFORMATION
-            ================================================= */}
-
-            <div className="flex flex-col justify-between p-10 xl:p-14">
-
-              {/* TOP */}
-
-              <div>
-
-                <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#c9f36a]">
-                  Real voices · Real journeys
-                </p>
-
-                <p className="mt-4 max-w-[380px] text-[13px] leading-6 text-white/50">
-                  The best way to understand the student experience
-                  is to hear it directly from the students.
-                </p>
-
-              </div>
-
-
-              {/* ACTIVE STORY */}
-
-              <div
-                key={`desktop-content-${active}`}
-                className="animate-experience-content"
+        <div
+          ref={railRef}
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+          aria-label="Student story previews. Use left and right arrow keys to browse."
+          className="mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-5 outline-none scrollbar-none focus-visible:ring-2 focus-visible:ring-[#08783f] focus-visible:ring-offset-4 focus-visible:ring-offset-[#f7f8f4]"
+        >
+          {studentReviewCards.map((review, index) => {
+            const hasMedia = Boolean(review.video);
+            return (
+              <article
+                key={review.id}
+                className="relative w-[82vw] max-w-[320px] shrink-0 snap-start overflow-hidden rounded-[16px] bg-[#123b2a] text-white sm:w-[44%] sm:max-w-none lg:w-[23.5%]"
               >
-
-                <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#c9f36a]">
-                  {current.className}
-                </p>
-
-                <h3 className="mt-4 max-w-[560px] text-[42px] font-semibold leading-[0.98] tracking-[-0.045em] text-white xl:text-[54px]">
-                  {current.title}
-                </h3>
-
-                <p className="mt-5 max-w-[440px] text-[14px] leading-7 text-white/55">
-                  {current.description}
-                </p>
-
-                <p className="mt-5 text-[11px] text-white/40">
-                  — {current.name}
-                </p>
-
-              </div>
-
-
-              {/* STORY LIST */}
-
-              <div className="mt-10">
-
-                {reviews.map((review, index) => {
-
-                  const isActive = index === active;
-                  const poster = getStudentVideoPoster(review.video);
-
-                  return (
-                    <button
-                      key={review.id}
-                      type="button"
-                      onClick={() => changeStory(index)}
-                      className="group flex w-full items-center gap-4 border-b border-white/10 py-4 text-left"
-                    >
-
-                      <span
-                        className={`font-mono text-[10px] ${
-                          isActive
-                            ? "text-[#c9f36a]"
-                            : "text-white/25"
-                        }`}
-                      >
-                        {review.id}
-                      </span>
-
-
-                      <div className="relative h-10 w-8 shrink-0 overflow-hidden rounded-[5px] bg-white/10">
-                        {poster && (
-                          <Image
-                            src={poster}
-                            alt=""
-                            fill
-                            sizes="32px"
-                            className="object-cover"
-                          />
-                        )}
-                      </div>
-
-
-                      <div className="min-w-0 flex-1">
-
-                        <p
-                          className={`truncate text-[13px] font-medium transition-colors ${
-                            isActive
-                              ? "text-white"
-                              : "text-white/40 group-hover:text-white/70"
-                          }`}
-                        >
-                          {review.title}
-                        </p>
-
-                        <p className="mt-1 text-[9px] text-white/25">
-                          {review.className}
-                        </p>
-
-                      </div>
-
-
-                      <span
-                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                          isActive
-                            ? "bg-[#c9f36a] text-[#123b2a]"
-                            : "border border-white/10 text-white/30"
-                        }`}
-                      >
-                        <Play
-                          size={9}
-                          fill="currentColor"
-                          strokeWidth={0}
-                          className="ml-[1px]"
-                        />
-                      </span>
-
-                    </button>
-                  );
-                })}
-
-              </div>
-
-
-              {/* BOTTOM CONTROLS */}
-
-              <div className="mt-7 flex items-center justify-between">
-
-                <div className="flex items-center gap-2">
-
-                  <span className="font-mono text-[10px] text-[#c9f36a]">
-                    {current.id}
-                  </span>
-
-                  <span className="font-mono text-[10px] text-white/25">
-                    / {String(reviews.length).padStart(2, "0")}
-                  </span>
-
-                </div>
-
-
-                <div className="flex gap-2">
-
-                  <button
-                    type="button"
-                    onClick={previous}
-                    aria-label="Previous student review"
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/60 transition hover:border-white/40 hover:bg-white/10 hover:text-white"
-                  >
-                    <ArrowLeft size={16} strokeWidth={1.5} />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={next}
-                    aria-label="Next student review"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-[#c9f36a] text-[#123b2a] transition hover:bg-white"
-                  >
-                    <ArrowRight size={16} strokeWidth={1.5} />
-                  </button>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        {/* =====================================================
-            MOBILE
-        ====================================================== */}
-
-        <div className="mt-9 lg:hidden">
-
-          {/* =================================================
-              VERTICAL VIDEO
-          ================================================= */}
-
-          <div className="flex justify-center">
-
-            <div className="relative w-full max-w-[430px] overflow-hidden rounded-[22px] bg-black">
-
-              <div className="relative aspect-[9/16] w-full">
-
-                <video
-                  ref={mobileVideoRef}
-                  key={current.video}
-                  src={current.video}
-                  poster={currentPoster}
-                  playsInline
-                  preload="metadata"
-                  muted={muted}
-                  onPlay={() => setPlaying(true)}
-                  onPause={() => setPlaying(false)}
-                  className="h-full w-full object-cover"
-                />
-
-
-                {/* GRADIENT */}
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/10" />
-
-
-                {/* TOP LABEL */}
-
-                <div className="absolute left-5 right-5 top-5 flex items-center justify-between">
-
-                  <div className="flex items-center gap-3">
-
-                    <span className="font-mono text-[10px] text-white/70">
-                      {current.id}
-                    </span>
-
-                    <span className="h-px w-6 bg-white/40" />
-
-                    <span className="text-[8px] uppercase tracking-[0.17em] text-white/60">
-                      Student Voice
-                    </span>
-
-                  </div>
-
-
-                  <button
-                    type="button"
-                    onClick={() => toggleMute(mobileVideoRef.current)}
-                    aria-label={muted ? "Unmute video" : "Mute video"}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-md"
-                  >
-                    {muted ? (
-                      <VolumeX size={14} strokeWidth={1.5} />
-                    ) : (
-                      <Volume2 size={14} strokeWidth={1.5} />
-                    )}
-                  </button>
-
-                </div>
-
-
-                {/* PLAY */}
-
-                {!playing && (
-                  <button
-                    type="button"
-                    onClick={() => togglePlay(mobileVideoRef.current)}
-                    aria-label="Play student review"
-                    className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#123b2a] shadow-lg active:scale-95"
-                  >
-                    <Play
-                      size={16}
-                      fill="currentColor"
-                      strokeWidth={0}
-                      className="ml-1"
+                <div className="relative aspect-[4/5]">
+                  {review.video ? (
+                    <video
+                      src={review.video}
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      onLoadedData={(event) => {
+                        event.currentTarget.currentTime = 5;
+                      }}
+                      className="absolute inset-0 h-full w-full object-cover"
                     />
-                  </button>
-                )}
-
-
-                {/* BOTTOM CONTENT */}
-
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#c9f36a]">
-                    {current.className}
-                  </p>
-
-                  <h3 className="mt-3 text-[28px] font-semibold leading-[1] tracking-[-0.04em] text-white">
-                    {current.title}
-                  </h3>
-
-                  <p className="mt-3 text-[11px] text-white/55">
-                    {current.name}
-                  </p>
-
-
-                  {/* CONTROLS */}
-
-                  <div className="mt-5 flex items-center justify-between">
-
-                    <div className="flex items-center gap-1.5">
-
-                      {reviews.map((review, index) => (
-                        <button
-                          key={review.id}
-                          type="button"
-                          onClick={() => changeStory(index)}
-                          aria-label={`Show ${review.title}`}
-                          className={`h-1.5 rounded-full transition-all duration-300 ${
-                            index === active
-                              ? "w-8 bg-[#c9f36a]"
-                              : "w-1.5 bg-white/35"
-                          }`}
-                        />
-                      ))}
-
+                  ) : review.image ? (
+                    <Image
+                      src={review.image}
+                      alt=""
+                      fill
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 90vw"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div
+                      aria-hidden="true"
+                      className={
+                        index % 2
+                          ? "absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(201,243,106,0.28),transparent_35%),linear-gradient(145deg,#1d6043,#09251a)]"
+                          : "absolute inset-0 bg-[radial-gradient(circle_at_80%_25%,rgba(201,243,106,0.28),transparent_35%),linear-gradient(145deg,#1d6043,#09251a)]"
+                      }
+                    >
+                      <div className="absolute -bottom-16 -right-10 h-48 w-48 rounded-full border border-[#c9f36a]/20" />
+                      <div className="absolute left-8 top-24 h-20 w-20 rounded-full border border-white/10" />
                     </div>
-
-
-                    <div className="flex gap-2">
-
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#071f15] via-[#123b2a]/25 to-transparent" />
+                  <div className="absolute inset-x-5 top-5 flex items-center justify-between">
+                    {hasMedia && (
                       <button
                         type="button"
-                        onClick={previous}
-                        aria-label="Previous student review"
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/10 text-white backdrop-blur-md"
+                        onClick={() => openReview(review)}
+                        aria-label="Play student review video"
+                        className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-xs font-bold text-[#123b2a] shadow-[0_6px_18px_rgba(7,31,21,0.14)] transition-transform hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f]"
                       >
-                        <ArrowLeft size={14} strokeWidth={1.5} />
+                        <Play size={13} fill="currentColor" />
+                        Play
                       </button>
-
-                      <button
-                        type="button"
-                        onClick={next}
-                        aria-label="Next student review"
-                        className="flex h-9 w-9 items-center justify-center rounded-full bg-[#c9f36a] text-[#123b2a]"
-                      >
-                        <ArrowRight size={14} strokeWidth={1.5} />
-                      </button>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          {/* =================================================
-              MOBILE STORY SELECTOR
-          ================================================= */}
-
-          <div className="mt-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-
-            {/* <div className="flex min-w-max gap-2">
-
-              {reviews.map((review, index) => {
-
-                const isActive = index === active;
-
-                return (
-                  <button
-                    key={review.id}
-                    type="button"
-                    onClick={() => changeStory(index)}
-                    className={`flex items-center gap-2.5 rounded-full border px-3 py-2 transition-all ${
-                      isActive
-                        ? "border-[#123b2a] bg-[#123b2a] text-white"
-                        : "border-[#dce4de] text-[#647069]"
-                    }`}
-                  >
-
-                    <div className="relative h-7 w-7 overflow-hidden rounded-full">
-
-                      <Image
-                        src={review.thumbnail}
-                        alt=""
-                        fill
-                        sizes="28px"
-                        className="object-cover"
-                      />
-
-                    </div>
-
-                    <span className="text-[10px] whitespace-nowrap">
-                      {review.id} · {review.className}
+                    )}
+                    <span className="rounded-full border border-[#c9f36a]/40 bg-[#123b2a]/50 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#c9f36a] backdrop-blur-sm">
+                      {review.label}
                     </span>
-
-                  </button>
-                );
-              })}
-
-            </div> */}
-
-          </div>
-
-
-          {/* MOBILE DESCRIPTION */}
-
-          <div
-            key={`mobile-description-${active}`}
-            className="animate-experience-content mt-7"
-          >
-
-            <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#08783f]">
-              Student perspective
-            </p>
-
-            <p className="mt-3 max-w-[500px] text-[13px] leading-6 text-[#647069]">
-              {current.description}
-            </p>
-
-          </div>
-
+                  </div>
+                  <div className="absolute inset-x-5 bottom-5">
+                    <Quote
+                      aria-hidden="true"
+                      size={22}
+                      className="mb-4 text-[#c9f36a]"
+                      fill="currentColor"
+                    />
+                    <h3 className="text-2xl font-semibold leading-[1.05] tracking-[-0.04em]">
+                      {review.title}
+                    </h3>
+                    <p className="mt-3 text-xs leading-5 text-white/70">
+                      {review.description}
+                    </p>
+                    {hasMedia && (
+                      <button
+                        type="button"
+                        onClick={() => openReview(review)}
+                        className="mt-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#c9f36a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c9f36a]"
+                      >
+                        <Play size={13} fill="currentColor" />
+                        Watch story
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
-
-        {/* =====================================================
-            FOOTER
-        ====================================================== */}
-
-        <div className="mt-7 flex items-center justify-between border-t border-[#dce4de] pt-5">
-
-          <p className="text-[9px] uppercase tracking-[0.22em] text-[#929c96]">
-            Real voices · Real journeys
-          </p>
-
-          <Link
-            href="/student-life"
-            className="group flex items-center gap-3 text-[11px] font-semibold text-[#123b2a]"
-          >
-            Meet our students
-
-            <span className="transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-
-          </Link>
-
+        <div className="mt-3 flex items-center gap-2" aria-hidden="true">
+          {studentReviewCards.map((review, index) => (
+            <span
+              key={review.id}
+              className={`h-1 rounded-full transition-all ${
+                index === activeIndex ? "w-8 bg-[#e50046]" : "w-2 bg-[#cbd6cc]"
+              }`}
+            />
+          ))}
         </div>
-
       </div>
 
+      {selectedReview?.video && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={selectedReview.title}
+          onMouseDown={handleBackdropClick}
+          className="fixed inset-0 z-[150] flex items-center justify-center bg-[#071f15]/85 p-4 backdrop-blur-sm"
+        >
+          <div className="relative h-[calc(100dvh-40px)] max-h-[720px] w-auto max-w-[calc(100vw-32px)] aspect-[9/16] overflow-hidden rounded-2xl bg-black shadow-2xl">
+            <button
+              type="button"
+              aria-label="Close student story"
+              onClick={closeReview}
+              className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              <X size={17} />
+            </button>
+            <video
+              ref={modalVideoRef}
+              src={selectedReview.video}
+              poster={selectedReview.poster}
+              controls
+              playsInline
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }

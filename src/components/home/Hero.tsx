@@ -82,7 +82,7 @@ export default function Hero() {
                   HEADING
               ================================================= */}
 
-              <h1 className="text-[48px] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0d3b2c] sm:text-[62px] lg:text-[76px] xl:text-[82px]">
+              <h1 className="text-[46px] font-bold leading-[1.02] tracking-[-0.05em] text-[#0d3b2c] sm:text-[62px] sm:leading-[1.01] sm:tracking-[-0.052em] lg:text-[76px] lg:leading-[0.99] xl:text-[82px]">
 
                 Build Today
                 <br />
@@ -117,7 +117,7 @@ export default function Hero() {
 
                 <Link
                   href="/programs"
-                  className="group inline-flex h-[52px] items-center gap-7 rounded-full bg-[#08783f] px-7 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-[#056532]"
+                  className="group inline-flex h-[52px] items-center gap-7 rounded-full bg-[#08783f] px-7 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-[#056532] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08783f] focus-visible:ring-offset-4"
                 >
                   <span>Explore Programs</span>
 
@@ -127,8 +127,8 @@ export default function Hero() {
                 </Link>
 
                 <Link
-                  href="/our-story"
-                  className="group inline-flex items-center gap-3 text-[13px] font-medium text-[#123b2a]"
+                  href="/about"
+                  className="group inline-flex items-center gap-3 text-[13px] font-medium text-[#123b2a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08783f] focus-visible:ring-offset-4"
                 >
 
                   <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#123b2a]/30 transition-all duration-300 group-hover:border-[#e50046] group-hover:text-[#e50046]">

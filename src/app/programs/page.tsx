@@ -40,8 +40,8 @@ export default function ProgramsPage() {
   return (
     <main>
       <ProgramHero />
-      <section id="pathways" aria-label="Available academic pathways" className="scroll-mt-16 bg-[#f7f8f4] px-5 pb-20 sm:px-8 sm:pb-28 lg:px-12">
-        <div className="mx-auto grid max-w-[1320px] gap-5">
+      <section id="pathways" aria-label="Available academic pathways" className="subpage-section scroll-mt-16 bg-[#f7f8f4] px-5 pt-0 sm:px-8 lg:px-12">
+        <div className="subpage-container grid gap-5">
           {programs.map((program) => <ProgramCard key={program.id} program={program} />)}
         </div>
       </section>

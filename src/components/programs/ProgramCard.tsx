@@ -16,7 +16,7 @@ export type Program = {
 export default function ProgramCard({ program }: { program: Program }) {
   const green = program.accent === "green";
   return (
-    <article id={program.id} className="group scroll-mt-24 grid overflow-hidden rounded-[26px] bg-white shadow-[0_18px_55px_rgba(18,59,42,0.07)] md:grid-cols-[1.06fr_0.94fr]">
+    <article id={program.id} className="subpage-card group scroll-mt-24 grid overflow-hidden md:grid-cols-[1.06fr_0.94fr]">
       <div className={`relative min-h-[320px] overflow-hidden md:min-h-[490px] ${green ? "bg-[#e8efe8]" : "bg-[#f4e7e9]"}`}>
         <Image src={program.image} alt={`${program.stream} pathway`} fill sizes="(max-width: 768px) 100vw, 55vw" className="object-cover transition-transform duration-700 ease-out motion-reduce:transition-none group-hover:scale-[1.025]" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#031b11]/55 via-transparent to-transparent" />
@@ -26,7 +26,7 @@ export default function ProgramCard({ program }: { program: Program }) {
       <div className="flex flex-col justify-between p-7 sm:p-10 lg:p-12">
         <div>
           <p className={`text-[10px] font-semibold uppercase tracking-[0.24em] ${green ? "text-[#08783f]" : "text-[#c0003c]"}`}>{program.exam}</p>
-          <h2 className="mt-5 text-[42px] font-semibold leading-[0.98] tracking-[-0.055em] text-[#123b2a] sm:text-[54px]">{program.title}</h2>
+          <h2 className="subpage-section-title mt-5">{program.title}</h2>
           <p className="mt-6 max-w-[430px] text-[14px] leading-7 text-[#647069]">{program.description}</p>
           <div className="mt-9 border-y border-[#e4e9e4] py-5">
             <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#929c96]">An integrated approach</p>

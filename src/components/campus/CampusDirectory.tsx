@@ -82,7 +82,7 @@ export default function CampusDirectory() {
   return (
     <section
       id="campus-directory"
-      className="scroll-mt-24 bg-[#f7f8f4] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-32"
+      className="subpage-section scroll-mt-24 bg-[#f7f8f4] px-5 sm:px-8 lg:px-12"
     >
       <div className="mx-auto max-w-[1320px]">
         <div className="flex flex-col gap-8 border-b border-[#dce4de] pb-10 sm:pb-14 lg:flex-row lg:items-end lg:justify-between">
@@ -92,7 +92,7 @@ export default function CampusDirectory() {
               Our locations
             </p>
 
-            <h2 className="mt-5 max-w-[800px] text-[clamp(2.8rem,7vw,6.5rem)] font-semibold leading-[0.88] tracking-[-0.075em] text-[#123b2a]">
+            <h2 className="subpage-section-title mt-5 max-w-[800px]">
               Find your
               <br />
               <span className="text-[#08783f]">place to begin.</span>
@@ -204,7 +204,7 @@ export default function CampusDirectory() {
             </div>
 
             <div className="relative mt-14">
-              <h3 className="text-[clamp(2.8rem,6vw,5rem)] font-semibold leading-[0.92] tracking-[-0.07em]">
+              <h3 className="subpage-section-title text-white">
                 {selected.city}
               </h3>
 
