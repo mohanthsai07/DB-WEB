@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function StudentLifePageContent() {
+  const studentVideoUrl =
+    "https://media.githubusercontent.com/media/mohanthsai07/DB-WEB/refs/heads/main/public/images/students/1.mp4";
+
   return (
     <main className="overflow-hidden bg-[#f7f8f4] text-[#123b2a]">
       <section className="subpage-hero relative px-5 sm:px-8 lg:px-12">
@@ -67,7 +70,7 @@ export default function StudentLifePageContent() {
                 poster="/images/hero/student.jpg"
                 aria-label="Student life video"
               >
-                <source src="/images/students/1.mp4" type="video/mp4" />
+                <source src={studentVideoUrl} type="video/mp4" />
                 Your browser does not support the video element.
               </video>
             </div>

@@ -27,6 +27,9 @@ export type StudentReview = {
   poster?: string;
 };
 
+const studentVideoBaseUrl =
+  "https://media.githubusercontent.com/media/mohanthsai07/DB-WEB/refs/heads/main/public/images/students";
+
 /**
  * Keep this list intentionally honest until verified student stories are supplied.
  * The optional media fields are the extension point for attributed stories.
@@ -38,7 +41,7 @@ export const studentReviewCards: StudentReview[] = [
     title: "Hear from a student",
     description:
       "Dhanik Bharat student experience",
-    video: "/images/students/1.mp4",
+    video: `${studentVideoBaseUrl}/1.mp4`,
   },
   {
     id: "preview-02",
@@ -46,7 +49,7 @@ export const studentReviewCards: StudentReview[] = [
     title: "Learning, day by day",
     description:
       "A verified student story can be added here.",
-       video: "/images/students/2.mp4",
+       video: `${studentVideoBaseUrl}/2.mp4`,
   },
   {
     id: "preview-03",
@@ -54,7 +57,7 @@ export const studentReviewCards: StudentReview[] = [
     title: "Growing with the right support",
     description:
       "A verified student story can be added here.",
-    video: "/images/students/3.mp4",
+    video: `${studentVideoBaseUrl}/3.mp4`,
   },
   {
     id: "preview-04",
@@ -62,7 +65,7 @@ export const studentReviewCards: StudentReview[] = [
     title: "More room to discover",
     description:
       "A verified student story can be added here.",
-    video: "/images/students/4.mp4",
+    video: `${studentVideoBaseUrl}/4.mp4`,
   },
   {
     id: "preview-05",
@@ -70,7 +73,7 @@ export const studentReviewCards: StudentReview[] = [
     title: "Your story could be next",
     description:
       "A verified student story can be added here.",
-    video: "/images/students/5.mp4",
+    video: `${studentVideoBaseUrl}/5.mp4`,
   },
 ];
 
