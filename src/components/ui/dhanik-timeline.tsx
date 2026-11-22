@@ -1,12 +1,7 @@
 
 import Link from "next/link";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  GraduationCap,
-  MapPin,
-  Navigation,
-} from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
 
 type Campus = {
   id: string;
@@ -56,33 +51,18 @@ const mapUrl = (campus: Campus) =>
 
 function CampusRow({ campus }: { campus: Campus }) {
   return (
-    <article className="group flex items-center gap-3 rounded-2xl bg-white/0 p-3 transition-colors duration-200 hover:bg-white">
-      <div
-        className="relative h-[66px] w-[78px] shrink-0 overflow-hidden rounded-xl bg-[#dce9df] bg-cover bg-center"
-        style={{ backgroundImage: `url("${campus.image}")` }}
-      >
-        <div className="absolute inset-0 flex items-center justify-center bg-[#123b2a]/10">
-          <GraduationCap className="h-7 w-7 text-[#123b2a]/70" />
-        </div>
+    <article className="group grid grid-cols-[86px_1fr] items-center gap-4 border-b border-[#dce4ed] py-4 last:border-b-0 sm:grid-cols-[110px_1fr_auto]">
+      <div className="relative h-[66px] overflow-hidden bg-[#dce9df]">
+        <Image src={campus.image} alt="" fill sizes="110px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
       </div>
 
       <div className="min-w-0 flex-1">
-        <h3 className="truncate text-[15px] font-semibold text-[#123b2a]">
+        <h3 className="text-[17px] font-semibold text-[#123b2a]">
           {campus.city}
         </h3>
-        <p className="mt-1 truncate text-xs text-[#647069]">
+        <p className="mt-1 text-xs text-[#647069]">
           {campus.area ?? campus.state}
         </p>
-
-        <a
-          href={mapUrl(campus)}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-[#08783f] hover:underline"
-        >
-          <Navigation className="h-3 w-3" />
-          Get directions
-        </a>
       </div>
 
       <a
@@ -90,7 +70,7 @@ function CampusRow({ campus }: { campus: Campus }) {
         target="_blank"
         rel="noreferrer"
         aria-label={`Explore ${campus.city} on Google Maps`}
-        className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#123b2a] px-3 py-2 text-[11px] font-semibold text-white transition-colors hover:bg-[#08783f]"
+        className="col-span-2 inline-flex min-h-11 items-center rounded-full justify-center gap-2 bg-[#123b2a] px-4 text-[12px] font-semibold text-white transition-colors hover:bg-[#08783f] sm:col-span-1"
       >
         Explore
         <ArrowUpRight className="h-3 w-3" />
@@ -103,13 +83,13 @@ export default function DhanikTimeline() {
   return (
     <section
       id="our-campuses"
-      className="overflow-hidden bg-white py-20 md:py-28"
+      className="subpage-section overflow-hidden bg-white px-5 sm:px-8 lg:px-12"
     >
-      <div className="mx-auto max-w-[1440px] px-5 md:px-10 lg:px-14">
+      <div className="subpage-container">
         {/* Section heading */}
         <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#08783f]">
+            <span className="mb-3 inline-flex items-center gap-2 text-xs font-bold tracking-[0.06em] text-[#08783f]">
               <span className="h-2 w-2 rounded-full bg-[#c9f36a]" />
               Our locations
             </span>
@@ -129,8 +109,7 @@ export default function DhanikTimeline() {
 
         {/* Main discovery layout */}
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[0.85fr_1.65fr]">
-          {/* Featured learning panel */}
-          <div className="overflow-hidden rounded-[26px] border border-[#e9eee8] bg-[#f7f8f4] p-5 md:p-7">
+          <div className="overflow-hidden border border-[#e9eee8] bg-[#f7f8f4] p-5 md:p-7">
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-[#123b2a]">
                 The Dhanik learning experience
@@ -140,19 +119,15 @@ export default function DhanikTimeline() {
               </span>
             </div>
 
-            {/* Add your mentoring/classroom image here */}
-            <div
-              className="relative mt-5 aspect-[4/3] overflow-hidden rounded-2xl bg-[#e3e9df] bg-cover bg-center"
-              style={{
-                backgroundImage:
-                  'url("/images/campus/study room.png")',
-              }}
-            >
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-[#123b2a]/35 to-transparent">
-                <div className="rounded-full border border-white/50 bg-white/80 p-4 backdrop-blur-sm">
-                  <GraduationCap className="h-9 w-9 text-[#123b2a]" />
-                </div>
-              </div>
+            <div className="relative mt-5 aspect-[4/3] overflow-hidden bg-[#e3e9df]">
+              <Image
+                src="/images/campus/study room.png"
+                alt="Dhanik Bharat study environment"
+                fill
+                sizes="(max-width: 1024px) 100vw, 34vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#123b2a]/35 to-transparent" />
             </div>
 
             <div className="pt-5">
@@ -168,7 +143,7 @@ export default function DhanikTimeline() {
 
               <Link
                 href="/programs"
-                className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#08783f] hover:gap-3"
+                className="subpage-action-link mt-5 border-[#b9c9bd] text-[#08783f] hover:gap-3"
               >
                 Explore our programs
                 <ArrowRight className="h-4 w-4" />
@@ -210,7 +185,7 @@ export default function DhanikTimeline() {
               </div>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-[#123b2a] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#08783f]"
+                className="subpage-button bg-[#123b2a] text-xs text-white hover:bg-[#08783f]"
               >
                 Contact us
                 <ArrowUpRight className="h-3.5 w-3.5" />

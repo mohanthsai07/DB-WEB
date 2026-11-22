@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Admissions | Dhanik Bharat",
     description: "Explore the admissions journey for integrated Intermediate education and JEE or NEET preparation.",
-    images: ["/images/hero/student.jpg"],
   },
 };
 
@@ -43,11 +42,11 @@ const steps = [
 
 export default function AdmissionsPage() {
   return (
-    <main className="overflow-hidden bg-[#f7f8f4] text-[#123b2a]">
-      <section className="px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8 lg:pt-20">
+    <main className="admissions-page overflow-hidden bg-[#f7f8f4] text-[#123b2a]">
+      <section className="subpage-hero px-4 sm:px-6 lg:px-8">
         <div className="subpage-container grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           <div className="animate-fade-up">
-            <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#08783f]">
+            <p className="subpage-kicker mb-5 flex items-center gap-3">
               <span className="h-px w-8 bg-[#08783f]" /> Admissions · Classes 11 &amp; 12
             </p>
             <h1 className="subpage-title max-w-[640px]">
@@ -60,7 +59,7 @@ export default function AdmissionsPage() {
               <a href="#enquiry" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#08783f] px-6 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#076b38] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
                 Begin an enquiry <span aria-hidden="true" className="ml-3 text-lg">↗</span>
               </a>
-              <Link href="/programs" className="text-sm font-semibold text-[#123b2a] underline decoration-[#b9c9bd] underline-offset-4 transition hover:text-[#08783f] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
+              <Link href="/programs" className="subpage-action-link transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
                 Compare programs
               </Link>
             </div>
@@ -70,7 +69,7 @@ export default function AdmissionsPage() {
             </div>
           </div>
 
-          <div className="relative min-h-[360px] overflow-hidden rounded-[28px] bg-[#123b2a] sm:min-h-[470px] sm:rounded-[36px]">
+          <div className="relative min-h-[320px] overflow-hidden rounded-[28px] bg-[#123b2a] sm:min-h-[470px] sm:rounded-[36px]">
             <div className="absolute inset-0 bg-[url('/images/hero/student.jpg')] bg-cover bg-[center_40%]" role="img" aria-label="Student studying at Dhanik Bharat" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#102d22]/90 via-[#123b2a]/10 to-[#123b2a]/5" />
             <div className="absolute left-5 top-5 rounded-full border border-white/30 bg-[#123b2a]/65 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm sm:left-8 sm:top-8">
@@ -88,7 +87,7 @@ export default function AdmissionsPage() {
 
       <section className="subpage-section bg-white px-4 sm:px-6 lg:px-8" aria-labelledby="journey-title">
         <div className="subpage-container max-w-[1200px]">
-          <div className="mb-11 grid gap-5 md:mb-14 md:grid-cols-[1fr_0.65fr] md:items-end">
+          <div className="mb-9 grid gap-5 md:mb-14 md:grid-cols-[1fr_0.65fr] md:items-end">
             <div>
               <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#08783f]">The admissions journey</p>
               <h2 id="journey-title" className="subpage-section-title max-w-[660px]">
@@ -102,7 +101,7 @@ export default function AdmissionsPage() {
           <ol className="grid gap-0 border-t border-[#dfe6df] md:grid-cols-5">
             {steps.map((step, index) => (
               <li key={step.number} className="group relative border-b border-[#dfe6df] py-6 md:border-b-0 md:border-r md:px-5 md:py-7 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
-                <span className="mb-7 flex h-10 w-10 items-center justify-center rounded-full border border-[#b9c9bd] text-xs font-semibold text-[#08783f] transition group-hover:border-[#08783f] group-hover:bg-[#08783f] group-hover:text-white">{step.number}</span>
+                <span className="mb-5 flex h-10 w-10 items-center justify-center rounded-full border border-[#b9c9bd] text-xs font-semibold text-[#08783f] transition group-hover:border-[#08783f] group-hover:bg-[#08783f] group-hover:text-white md:mb-7">{step.number}</span>
                 <h3 className="max-w-[210px] text-[19px] font-semibold leading-tight tracking-[-0.035em]">{step.title}</h3>
                 <p className="mt-3 text-[13px] leading-6 text-[#647069]">{step.body}</p>
                 {index < steps.length - 1 && <span aria-hidden="true" className="absolute right-5 top-11 hidden h-px w-5 bg-[#c9f36a] md:block" />}
@@ -115,8 +114,8 @@ export default function AdmissionsPage() {
       <section className="subpage-section px-4 sm:px-6 lg:px-8" id="enquiry" aria-labelledby="enquiry-title">
         <div className="subpage-container grid overflow-hidden rounded-[24px] border border-[#dfe6df] bg-white lg:grid-cols-[0.82fr_1.18fr]">
           <div className="relative overflow-hidden bg-[#123b2a] p-7 text-white sm:p-10 lg:p-12">
-            <div aria-hidden="true" className="absolute -right-20 -top-16 h-64 w-64 rounded-full border border-white/10" />
-            <div aria-hidden="true" className="absolute -right-7 -top-3 h-40 w-40 rounded-full border border-[#c9f36a]/30" />
+            <div aria-hidden="true" className="absolute right-0 top-0 h-56 w-56 rounded-full border border-white/10" />
+            <div aria-hidden="true" className="absolute right-4 top-4 h-36 w-36 rounded-full border border-[#c9f36a]/30" />
             <div className="relative">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#c9f36a]">Start a conversation</p>
               <h2 id="enquiry-title" className="subpage-section-title mt-5 max-w-[420px] text-white">
@@ -128,8 +127,8 @@ export default function AdmissionsPage() {
               <div className="mt-10 border-t border-white/20 pt-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/60">Explore pathways</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <Link href="/programs" className="rounded-full border border-white/25 px-4 py-2 text-xs font-medium transition hover:border-[#c9f36a] hover:text-[#c9f36a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c9f36a]">MPC · JEE</Link>
-                  <Link href="/programs" className="rounded-full border border-white/25 px-4 py-2 text-xs font-medium transition hover:border-[#c9f36a] hover:text-[#c9f36a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c9f36a]">BiPC · NEET</Link>
+                  <Link href="/programs" className="inline-flex min-h-11 items-center rounded-full border border-white/25 px-4 text-xs font-medium transition hover:border-[#c9f36a] hover:text-[#c9f36a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c9f36a]">MPC · JEE</Link>
+                  <Link href="/programs" className="inline-flex min-h-11 items-center rounded-full border border-white/25 px-4 text-xs font-medium transition hover:border-[#c9f36a] hover:text-[#c9f36a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c9f36a]">BiPC · NEET</Link>
                 </div>
               </div>
             </div>

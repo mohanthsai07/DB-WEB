@@ -261,31 +261,37 @@
   }
 
   .subpage-hero {
-    padding-block: 3.5rem 4.5rem;
+    padding-block: 3.75rem 4.5rem;
   }
 
   .subpage-kicker {
-    font-size: 0.6875rem;
+    color: var(--green);
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.06em;
     line-height: 1.25;
-    text-transform: uppercase;
   }
 
   .subpage-title {
     color: #123b2a;
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 650;
-    letter-spacing: -0.055em;
-    line-height: 0.98;
+    font-size: clamp(2.25rem, 4.2vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.02;
   }
 
   .subpage-section-title {
     color: #123b2a;
-    font-size: clamp(1.75rem, 3.5vw, 2.25rem);
-    font-weight: 650;
-    letter-spacing: -0.05em;
-    line-height: 1;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+  }
+
+  .subpage-subtitle {
+    color: #647069;
+    font-size: clamp(0.9375rem, 1.2vw, 1rem);
+    line-height: 1.75;
   }
 
   .subpage-card {
@@ -296,17 +302,38 @@
 
   .subpage-button {
     display: inline-flex;
-    min-height: 3rem;
+    min-height: 44px;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
+    border-radius: 999px;
     padding-inline: 1.25rem;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: 700;
     transition:
       background-color 180ms ease,
       color 180ms ease,
       transform 180ms ease;
+  }
+
+  .subpage-action-link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border: 1px solid #cbd7cf;
+    border-radius: 999px;
+    padding-inline: 1rem;
+    color: #123b2a;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+
+  .subpage-action-link:hover {
+    border-color: #08783f;
+    color: #08783f;
+    transform: translateY(-1px);
   }
 
   .subpage-button:hover {
@@ -344,6 +371,35 @@
 
     .subpage-section-title {
       font-size: clamp(1.5rem, 7vw, 1.75rem);
+    }
+  }
+
+  /* Keep the shared desktop header action aligned with the subpage CTA system. */
+  header a[href="/admissions"] {
+    min-height: 44px;
+  }
+
+  @media (max-width: 639px) {
+    .programs-page .subpage-hero,
+    .admissions-page .subpage-hero,
+    .campus-page .subpage-hero,
+    .results-page .subpage-hero {
+      padding-block: 3.5rem 4rem;
+    }
+
+    .programs-page .subpage-section,
+    .admissions-page .subpage-section,
+    .campus-page .subpage-section,
+    .results-page .subpage-section {
+      padding-block: 3.5rem;
+    }
+
+    .programs-page > .subpage-section {
+      padding-top: 0;
+    }
+
+    .campus-page > section:last-child {
+      padding-block: 3.5rem;
     }
   }
 }

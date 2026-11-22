@@ -46,6 +46,7 @@ export const studentReviewCards: StudentReview[] = [
     title: "Learning, day by day",
     description:
       "A verified student story can be added here.",
+       video: "/images/students/2.mp4",
   },
   {
     id: "preview-03",
@@ -53,6 +54,7 @@ export const studentReviewCards: StudentReview[] = [
     title: "Growing with the right support",
     description:
       "A verified student story can be added here.",
+    video: "/images/students/3.mp4",
   },
   {
     id: "preview-04",
@@ -60,6 +62,7 @@ export const studentReviewCards: StudentReview[] = [
     title: "More room to discover",
     description:
       "A verified student story can be added here.",
+    video: "/images/students/4.mp4",
   },
   {
     id: "preview-05",
@@ -67,6 +70,7 @@ export const studentReviewCards: StudentReview[] = [
     title: "Your story could be next",
     description:
       "A verified student story can be added here.",
+    video: "/images/students/5.mp4",
   },
 ];
 
@@ -287,9 +291,9 @@ export default function StudentReviews() {
                         Play
                       </button>
                     )}
-                    <span className="rounded-full border border-[#c9f36a]/40 bg-[#123b2a]/50 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#c9f36a] backdrop-blur-sm">
+                    {/* <span className="rounded-full border border-[#c9f36a]/40 bg-[#123b2a]/50 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#c9f36a] backdrop-blur-sm">
                       {review.label}
-                    </span>
+                    </span> */}
                   </div>
                   <div className="absolute inset-x-5 bottom-5">
                     <Quote

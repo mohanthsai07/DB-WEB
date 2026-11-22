@@ -4,11 +4,11 @@ import Link from "next/link";
 export default function StudentLifePageContent() {
   return (
     <main className="overflow-hidden bg-[#f7f8f4] text-[#123b2a]">
-      <section className="relative px-5 pb-16 pt-14 sm:px-8 sm:pb-24 sm:pt-20 lg:px-12 lg:pb-28 lg:pt-24">
+      <section className="subpage-hero relative px-5 sm:px-8 lg:px-12">
         <div className="subpage-container">
           <div className="grid items-end gap-9 lg:grid-cols-[0.86fr_1.14fr] lg:gap-16">
             <div className="pb-2">
-              <p className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">
+              <p className="subpage-kicker mb-6 flex items-center gap-3">
                 <span className="h-px w-8 bg-[#08783f]" /> The student experience
               </p>
               <h1 className="subpage-title max-w-[650px]">
@@ -85,7 +85,7 @@ export default function StudentLifePageContent() {
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">Explore more</p>
             <h2 className="subpage-section-title mt-4 max-w-[580px]">The right environment starts with the right questions.</h2>
           </div>
-          <Link href="/campus" className="group inline-flex items-center gap-3 text-sm font-semibold text-[#123b2a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
+          <Link href="/campus" className="subpage-action-link group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
             Explore campus <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
           </Link>
         </div>

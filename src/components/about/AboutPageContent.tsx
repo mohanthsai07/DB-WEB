@@ -4,11 +4,11 @@ import Link from "next/link";
 export default function AboutPageContent() {
   return (
     <main className="bg-[#f7f8f4] text-[#123b2a]">
-      <section className="px-5 pb-16 pt-14 sm:px-8 sm:pb-24 sm:pt-20 lg:px-12 lg:pb-28 lg:pt-24">
+      <section className="subpage-hero px-5 sm:px-8 lg:px-12">
         <div className="subpage-container">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             <div>
-              <p className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">
+              <p className="subpage-kicker mb-6 flex items-center gap-3">
                 <span className="h-px w-8 bg-[#08783f]" /> About Dhanik Bharat
               </p>
               <h1 className="subpage-title max-w-[700px]">
@@ -49,7 +49,7 @@ export default function AboutPageContent() {
       <section className="subpage-section bg-[#123b2a] px-5 text-white sm:px-8 lg:px-12">
         <div className="subpage-container grid gap-10 md:grid-cols-[0.7fr_1.3fr] md:gap-16">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#c9f36a]">A vision for education</p>
+            <p className="text-xs font-bold tracking-[0.06em] text-[#c9f36a]">A vision for education</p>
             <h2 className="subpage-section-title mt-5 max-w-[360px]">Rooted in values. Ready for what’s next.</h2>
           </div>
           <div className="max-w-[720px] text-[15px] leading-7 text-white/75 sm:text-base">
@@ -60,8 +60,8 @@ export default function AboutPageContent() {
               Its mission is to help students build academic mastery, confidence and character. That work begins with focused learning through Intermediate education and preparation for the next stage of each student’s journey.
             </p>
             <div className="mt-9 flex flex-wrap gap-x-10 gap-y-5 border-t border-white/20 pt-6">
-              <div><span className="block text-[10px] uppercase tracking-[0.18em] text-[#c9f36a]">Focus</span><span className="mt-2 block text-sm text-white">Intermediate education</span></div>
-              <div><span className="block text-[10px] uppercase tracking-[0.18em] text-[#c9f36a]">Pathways</span><span className="mt-2 block text-sm text-white">MPC / JEE · BiPC / NEET</span></div>
+              <div><span className="block text-xs font-semibold text-[#c9f36a]">Focus</span><span className="mt-2 block text-sm text-white">Intermediate education</span></div>
+              <div><span className="block text-xs font-semibold text-[#c9f36a]">Pathways</span><span className="mt-2 block text-sm text-white">MPC / JEE · BiPC / NEET</span></div>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function AboutPageContent() {
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">Continue exploring</p>
             <h2 className="subpage-section-title mt-4 max-w-[540px]">Find the academic path that fits.</h2>
           </div>
-          <Link href="/programs" className="group inline-flex items-center gap-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
+          <Link href="/programs" className="subpage-action-link group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]">
             Explore programs <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
           </Link>
         </div>

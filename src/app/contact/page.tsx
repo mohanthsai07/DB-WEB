@@ -30,7 +30,7 @@ export default function ContactPage() {
 
       <section id="contact-form" className="subpage-section border-t border-[#e5eae4] bg-white">
         <div className="subpage-container grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:gap-16">
-          <div>
+          <aside className="border-l-2 border-[#c9f36a] pl-6">
             <p className="subpage-kicker">A simple starting point</p>
             <h2 className="subpage-section-title mt-4 max-w-[360px]">Tell us what you’re exploring.</h2>
             <p className="mt-5 max-w-[380px] text-sm leading-6 text-[#647069]">
@@ -39,12 +39,12 @@ export default function ContactPage() {
             <div className="mt-8 border-t border-[#e5eae4] pt-5">
               <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#08783f]">Useful links</p>
               <div className="mt-3 flex flex-col items-start gap-2 text-sm font-semibold">
-                <Link href="/programs" className="underline decoration-[#c9f36a] underline-offset-4">Compare programmes ↗</Link>
-                <Link href="/campus" className="underline decoration-[#c9f36a] underline-offset-4">Explore campuses ↗</Link>
+                <Link href="/programs" className="subpage-action-link w-full justify-start border-transparent px-0 underline decoration-[#c9f36a] underline-offset-4 hover:border-transparent">Compare programmes ↗</Link>
+                <Link href="/campus" className="subpage-action-link w-full justify-start border-transparent px-0 underline decoration-[#c9f36a] underline-offset-4 hover:border-transparent">Explore campuses ↗</Link>
               </div>
             </div>
-          </div>
-          <div className="subpage-card p-6 sm:p-9">
+          </aside>
+          <div className="subpage-card overflow-hidden p-6 sm:p-9">
             <AdmissionEnquiryForm />
           </div>
         </div>

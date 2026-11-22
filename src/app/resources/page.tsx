@@ -36,9 +36,9 @@ const resourceGroups = [
 export default function ResourcesPage() {
   return (
     <main className="bg-[#f7f8f4]">
-      <section className="border-b border-[#e5eae4] px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24 lg:px-12">
+      <section className="subpage-hero border-b border-[#e5eae4] px-5 sm:px-8 lg:px-12">
         <div className="subpage-container">
-          <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#08783f]">The DBI library</p>
+          <p className="subpage-kicker">The DBI library</p>
           <div className="mt-6 grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
             <h1 className="subpage-title max-w-[780px]">
               Make your next<br /><span className="text-[#e50046]">step clearer.</span>
@@ -54,7 +54,7 @@ export default function ResourcesPage() {
         <div className="subpage-container">
           <div className="mb-10 flex items-end justify-between border-b border-[#e5eae4] pb-5">
             <h2 className="text-2xl font-semibold tracking-[-.04em] text-[#123b2a]">Explore the library</h2>
-            <span className="hidden text-[10px] font-bold uppercase tracking-[.22em] text-[#647069] sm:block">Curated for Classes 11–12</span>
+            <span className="hidden text-xs font-semibold text-[#647069] sm:block">Curated for Classes 11–12</span>
           </div>
           <div className="grid gap-5 lg:grid-cols-2">
             {resourceGroups.map((group) => (
@@ -101,7 +101,7 @@ export default function ResourcesPage() {
               <p className="text-[10px] font-bold uppercase tracking-[.24em] text-[#c9f36a]">Need a conversation?</p>
               <p className="mt-2 text-lg font-medium tracking-[-.02em]">Our admissions team can help you choose with confidence.</p>
             </div>
-            <Link href="/admissions" className="inline-flex w-fit items-center gap-4 bg-[#c9f36a] px-5 py-3 text-sm font-bold text-[#123b2a] hover:bg-white">Talk to us <span>→</span></Link>
+            <Link href="/admissions" className="subpage-button w-fit bg-[#c9f36a] text-sm text-[#123b2a] hover:bg-white">Talk to us <span className="ml-2">→</span></Link>
           </div>
         </div>
       </section>

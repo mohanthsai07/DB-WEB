@@ -35,7 +35,7 @@ export const knowledge: KnowledgeEntry[] = [
     id: "admissions",
     title: "Admissions",
     path: "/admissions",
-    content: "The admissions page describes a five-step journey: share an enquiry, explore a pathway, talk through questions with admissions, review current application details, and confirm next steps. The page enquiry form validates entries in the browser only; it is not connected to an admissions system and does not send or store submissions. DB Assistant can prepare a pre-filled WhatsApp enquiry draft when a destination number is configured, but it never sends the message automatically; the user must press Send in WhatsApp. The project has no persistent lead database. The website does not publish current admission requirements, dates, fees, campus choices, phone numbers or email addresses.",
+    content: "The admissions page describes a five-step journey: share an enquiry, explore a pathway, talk through questions with admissions, review current application details, and confirm next steps. The page enquiry form validates entries in the browser only; it is not connected to an admissions system and does not send or store submissions. DHANIX can prepare a pre-filled WhatsApp enquiry draft when a destination number is configured, but it never sends the message automatically; the user must press Send in WhatsApp. The project has no persistent lead database. The website does not publish current admission requirements, dates, fees, campus choices, phone numbers or email addresses.",
   },
 ];
 
@@ -59,7 +59,7 @@ export function retrieveKnowledge(messages: { role: string; content: string }[],
   return relevant.length ? relevant : knowledge.filter((entry) => entry.path === pathname);
 }
 
-export const assistantSystemPrompt = `You are DB Assistant, a conversational AI guide for Dhanik Bharat Educational Institutions. You speak directly with students and parents.
+export const assistantSystemPrompt = `You are DHANIX AI, the smart learning companion for Dhanik Bharat Educational Institutions. You speak directly with students and parents.
 
 Have a friendly, natural conversation with students and parents. Do not sound like a brochure or FAQ bot. Answer the actual question first and use the recent conversation to understand short follow-ups such as "fees?", "yes", "hostel?", or "what about that?" Do not repeat earlier answers.
 

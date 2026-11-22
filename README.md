@@ -28,6 +28,26 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Deployment configuration
+
+Configure these server-side environment variables in Vercel or the production host:
+
+```text
+GROQ_API_KEY=your_groq_api_key
+AI_MODEL=openai/gpt-oss-120b
+AI_BASE_URL=https://api.groq.com/openai/v1
+NEXT_PUBLIC_DHANIK_WHATSAPP_NUMBER=your_international_digits_only_number
+```
+
+`GROQ_API_KEY` must be available to the server at runtime. It must not use a `NEXT_PUBLIC_` prefix.
+The AI model and base URL are optional because the application has defaults, but both can be set explicitly.
+The WhatsApp number must contain international digits only, without `+`, spaces, or punctuation.
+
+After changing environment variables in Vercel, redeploy the project. Use these routes to verify the deployment:
+
+- `/api/chat` should return `{"provider":"groq","groqConfigured":true,"modelConfigured":true}`
+- `/api/leads` should return `{"whatsappConfigured":true}` after a valid WhatsApp number is configured
+
 ## Student video posters
 
 Student testimonial videos belong in `public/images/students/`. Before `npm run dev` and `npm run build`, the project scans that folder and uses FFmpeg to generate a matching WebP poster beside every MP4:

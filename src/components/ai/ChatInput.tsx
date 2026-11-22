@@ -29,8 +29,8 @@ export default function ChatInput({ onSubmit, busy, inputRef, inputTestId = "cha
   }
 
   return (
-    <form onSubmit={submit} className="rounded-[18px] border border-[#dce5dc] bg-white p-2 shadow-[0_3px_12px_rgba(18,59,42,.04)]">
-      <label className="sr-only" htmlFor="db-assistant-message">Message DB Assistant</label>
+    <form onSubmit={submit} className="rounded-[18px] border border-[#eadfd2] bg-white p-2 shadow-[0_3px_14px_rgba(241,90,39,.06)]">
+      <label className="sr-only" htmlFor="db-assistant-message">Message DHANIX AI</label>
       <textarea
         ref={inputRef}
         id="db-assistant-message"
@@ -38,19 +38,19 @@ export default function ChatInput({ onSubmit, busy, inputRef, inputTestId = "cha
         value={value}
         onChange={(event) => setValue(event.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Ask about programs or admissions…"
-        aria-label="Message DB Assistant"
+        placeholder="Reply to me..."
+        aria-label="Message DHANIX AI"
         data-testid={inputTestId}
-        className="max-h-28 min-h-10 w-full resize-none bg-transparent px-2.5 py-2 text-[13px] leading-5 text-[#123b2a] outline-none placeholder:text-[#87928a]"
+        className="max-h-28 min-h-10 w-full resize-none bg-transparent px-2.5 py-2 text-[13px] leading-5 text-[#171717] outline-none placeholder:text-[#777777]"
       />
       <div className="flex items-center justify-between pl-2.5">
-        <span className="text-[10px] text-[#647069]">Enter to send · Shift + Enter for a new line</span>
+        <span className="text-[10px] text-[#777777]">Enter to send · Shift + Enter for a new line</span>
         <button
           type="submit"
           disabled={!value.trim() || busy}
           aria-label="Send message"
           data-testid="chat-send"
-          className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#08783f] text-white transition hover:bg-[#075f34] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f] disabled:cursor-not-allowed disabled:bg-[#dce5dc] disabled:text-[#77837a] motion-reduce:transition-none"
+          className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#123b2a] text-white transition hover:bg-[#285c43] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#285c43] disabled:cursor-not-allowed disabled:bg-[#e7e7e7] disabled:text-[#777777] motion-reduce:transition-none"
         >
           {busy ? <LoaderCircle size={16} className="animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <ArrowUp size={17} aria-hidden="true" />}
         </button>

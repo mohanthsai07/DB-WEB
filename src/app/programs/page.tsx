@@ -38,7 +38,7 @@ const programs: Program[] = [
 
 export default function ProgramsPage() {
   return (
-    <main>
+    <main className="programs-page">
       <ProgramHero />
       <section id="pathways" aria-label="Available academic pathways" className="subpage-section scroll-mt-16 bg-[#f7f8f4] px-5 pt-0 sm:px-8 lg:px-12">
         <div className="subpage-container grid gap-5">

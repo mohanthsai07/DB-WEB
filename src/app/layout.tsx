@@ -12,8 +12,8 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Dhanik Bharat Educational Institutions",
-  description: "Dhanik Bharat Educational Institutions",
+  title: "DHANIX | Dhanik Bharat Educational Institutions",
+  description: "DHANIX, your smart learning companion for Dhanik Bharat courses, admissions and campuses.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

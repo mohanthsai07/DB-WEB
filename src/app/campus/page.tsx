@@ -81,7 +81,7 @@ function CampusCard({ campus }: { campus: Campus }) {
   return (
     <article
       id={`campus-${campus.number}`}
-      className="group flex h-full flex-col rounded-[5px] border border-[#e5e5df] bg-[#fdfdfb] p-[10px] pb-[18px] shadow-[0_14px_32px_rgba(18,59,42,0.09)]"
+      className="group flex h-full flex-col border-t-2 border-[#123b2a] bg-[#fdfdfb] p-[10px] pb-[18px]"
     >
       {/* Physical photograph frame */}
       <div className="relative aspect-[4/3] overflow-hidden bg-[#e8eee7]">
@@ -125,7 +125,7 @@ function CampusCard({ campus }: { campus: Campus }) {
             href={mapsUrl}
             target="_blank"
             rel="noreferrer"
-            className="flex min-h-10 items-center justify-between gap-2 rounded-full bg-[#08783f] px-4 text-[11px] font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]"
+            className="flex min-h-11 items-center justify-between gap-2 rounded-full bg-[#08783f] px-4 text-[12px] font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]"
           >
             <span className="flex items-center gap-2">
               <Navigation size={14} />
@@ -136,7 +136,7 @@ function CampusCard({ campus }: { campus: Campus }) {
 
           <Link
             href="/admissions"
-            className="mt-3 flex items-center justify-center gap-2 py-1 text-[11px] font-medium text-[#123b2a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f]"
+            className="subpage-action-link mt-3 w-full text-[11px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08783f]"
           >
             Enquire about this campus
             <ArrowDownRight size={13} />
@@ -149,11 +149,11 @@ function CampusCard({ campus }: { campus: Campus }) {
 
 export default function CampusPage() {
   return (
-    <main className="overflow-hidden bg-[#f7f8f4]">
+    <main className="campus-page overflow-hidden bg-[#f7f8f4]">
       {/* Editorial heading */}
-      <section className="px-5 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-24 lg:px-12 lg:pt-28">
+      <section className="subpage-hero px-5 sm:px-8 lg:px-12">
         <div className="subpage-container">
-          <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.26em] text-[#08783f]">
+          <p className="subpage-kicker flex items-center gap-3">
             <span className="h-1.5 w-1.5 rounded-full bg-[#08783f]" />
             Explore Dhanik Bharat
           </p>
@@ -174,7 +174,7 @@ export default function CampusPage() {
 
               <a
                 href="#campus-list"
-                className="mt-6 inline-flex items-center gap-3 rounded-full bg-[#123b2a] px-5 py-3.5 text-[12px] font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]"
+                className="subpage-button mt-6 bg-[#123b2a] text-[12px] text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08783f]"
               >
                 Explore locations
                 <ArrowDownRight size={16} />
@@ -203,10 +203,10 @@ export default function CampusPage() {
       {/* Campus photograph cards */}
       <section
         id="campus-list"
-        className="scroll-mt-8 px-5 pb-20 sm:px-8 sm:pb-24 lg:px-12 lg:pb-28"
+        className="scroll-mt-8 px-5 pb-14 sm:px-8 sm:pb-24 lg:px-12 lg:pb-28"
       >
         <div className="subpage-container">
-          <div className="mb-8 flex flex-col gap-3 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mb-7 flex flex-col gap-3 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#08783f]">
                 Our locations

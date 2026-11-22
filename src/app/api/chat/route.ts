@@ -78,6 +78,15 @@ function validatePayload(value: unknown): { messages: ChatMessage[]; context: Pa
 }
 
 const encode = (value: unknown) => new TextEncoder().encode(`${JSON.stringify(value)}\n`);
+
+export async function GET() {
+  return Response.json({
+    provider: "groq",
+    groqConfigured: Boolean(process.env.GROQ_API_KEY),
+    modelConfigured: true,
+  });
+}
+
 function chatCompletionsUrl(baseUrl: string) {
   const base = baseUrl.replace(/\/+$/, "");
   return base.endsWith("/chat/completions") ? base : `${base}/chat/completions`;
@@ -111,21 +120,14 @@ function validateModelActions(value: unknown): ChatAction[] {
 async function* streamGroq(messages: ChatMessage[], context: PageContext, signal: AbortSignal, onActions: (actions: ChatAction[]) => void, onDiagnostic: (diagnostic: StreamDiagnostics) => void, allowActions = true) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) throw new Error("Groq API key is not configured");
-  const model = process.env.AI_MODEL?.trim();
+  const model = process.env.AI_MODEL?.trim() || "openai/gpt-oss-120b";
   if (process.env.NODE_ENV === "development") {
-    console.info("[DB Assistant] Provider: Groq");
-    console.info(`[DB Assistant] Model: ${model || "not configured"}`);
-  }
-  if (!model) {
-    if (process.env.NODE_ENV === "development") {
-      console.info("[DB Assistant] Request sent: no");
-      console.info("[DB Assistant] Response received: no");
-    }
-    throw new Error("AI_MODEL is not configured");
+    console.info("[DHANIX] Provider: Groq");
+    console.info(`[DHANIX] Model: ${model}`);
   }
   const endpoint = chatCompletionsUrl(process.env.AI_BASE_URL || "https://api.groq.com/openai/v1");
   const knowledgeContext = retrieveKnowledge(messages, context.pathname).map((entry) => `${entry.title} (${entry.path}): ${entry.content}`).join("\n\n");
-  if (process.env.NODE_ENV === "development") console.info("[DB Assistant] Request sent: yes");
+  if (process.env.NODE_ENV === "development") console.info("[DHANIX] Request sent: yes");
   const response = await fetch(endpoint, {
     method: "POST",
     signal,
@@ -144,8 +146,8 @@ async function* streamGroq(messages: ChatMessage[], context: PageContext, signal
   });
   onDiagnostic({ status: response.status, responseReceived: true });
   if (process.env.NODE_ENV === "development") {
-    console.info(`[DB Assistant] Status: ${response.status}`);
-    console.info("[DB Assistant] Response received: yes");
+    console.info(`[DHANIX] Status: ${response.status}`);
+    console.info("[DHANIX] Response received: yes");
   }
   if (!response.ok || !response.body) throw new Error(`Groq HTTP ${response.status}`);
   const reader = response.body.getReader();
@@ -224,7 +226,7 @@ async function* streamGroq(messages: ChatMessage[], context: PageContext, signal
   }
   onActions(suggested.slice(0, 3));
   onDiagnostic({ choiceFrames, contentChunks, toolCallChunks, malformedFrames, unrecognizedFrames, reasoningChunks, finishReason, providerErrorFrames, ...(providerErrorCode ? { providerErrorCode } : {}), doneMarker, actionParseErrors });
-  if (process.env.NODE_ENV === "development") console.info(`[DB Assistant] Stream parsed: choices=${choiceFrames}, content_chunks=${contentChunks}, reasoning_chunks=${reasoningChunks}, tool_call_chunks=${toolCallChunks}, finish=${finishReason}, provider_error_frames=${providerErrorFrames}, provider_error_code=${providerErrorCode || "none"}, malformed_frames=${malformedFrames}, unrecognized_frames=${unrecognizedFrames}, action_parse_errors=${actionParseErrors}, done=${doneMarker}`);
+  if (process.env.NODE_ENV === "development") console.info(`[DHANIX] Stream parsed: choices=${choiceFrames}, content_chunks=${contentChunks}, reasoning_chunks=${reasoningChunks}, tool_call_chunks=${toolCallChunks}, finish=${finishReason}, provider_error_frames=${providerErrorFrames}, provider_error_code=${providerErrorCode || "none"}, malformed_frames=${malformedFrames}, unrecognized_frames=${unrecognizedFrames}, action_parse_errors=${actionParseErrors}, done=${doneMarker}`);
 }
 
 async function* streamLocal(text: string) {
@@ -245,7 +247,7 @@ function localGroundedFallback(messages: ChatMessage[]) {
   const actions: ChatAction[] = isAdmissionIntent(latest) ? [{ type: "lead_offer", label: "Talk to Admissions" }] : [];
 
   if (/\b(hi|hello|hey|hii)\b/i.test(latest)) {
-    return { text: tinglish ? "Hi! MPC, BiPC, campus, or admissions gurinchi adagochu. Meeku em telusukovali?" : "Hi! I can help with programs, campus, or admissions. What would you like to know?", actions };
+    return { text: tinglish ? "Hey! I'm DHANIX. MPC, BiPC, campus, leda admissions gurinchi adagochu." : "Hey! I'm DHANIX. Looking for information about MPC, BiPC or admissions? I've got you covered!", actions };
   }
   if (isAdmissionIntent(latest)) {
     return { text: tinglish ? "Sure! NEET preparation BiPC pathway lo untundi. Admissions team tho matladalante Talk to Admissions select cheyyandi." : "Sure. I can help with the admissions conversation. Select Talk to Admissions if you would like to continue.", actions };
@@ -272,7 +274,6 @@ function localGroundedFallback(messages: ChatMessage[]) {
 
 function providerFailureReason(error: unknown, diagnostic: StreamDiagnostics) {
   if (typeof diagnostic.status === "number" && (diagnostic.status < 200 || diagnostic.status >= 300)) return `HTTP ${diagnostic.status}`;
-  if (error instanceof Error && error.message === "AI_MODEL is not configured") return "AI_MODEL is not configured";
   if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) return "request timed out";
   if (error instanceof Error && record((error as Error & { cause?: unknown }).cause)) {
     const code = (error as Error & { cause: Record<string, unknown> }).cause.code;
@@ -316,7 +317,7 @@ export async function POST(request: Request) {
               controller.enqueue(encode({ type: "text", text: chunk }));
             }
             if (!providerText.trim() && diagnostic.responseReceived && (diagnostic.toolCallChunks ?? 0) > 0) {
-              if (process.env.NODE_ENV === "development") console.info("[DB Assistant] Tool-only response: retrying once for conversational text");
+              if (process.env.NODE_ENV === "development") console.info("[DHANIX] Tool-only response: retrying once for conversational text");
               const retryDiagnostic: StreamDiagnostics = {};
               activeDiagnostic = retryDiagnostic;
               for await (const chunk of streamGroq(
@@ -346,17 +347,17 @@ export async function POST(request: Request) {
             providerFailed = true;
             fallbackReason = providerFailureReason(error, activeDiagnostic);
             if (process.env.NODE_ENV === "development" && !activeDiagnostic.responseReceived) {
-              console.info("[DB Assistant] Status: unavailable");
-              console.info("[DB Assistant] Response received: no");
+              console.info("[DHANIX] Status: unavailable");
+              console.info("[DHANIX] Response received: no");
             }
           }
         } else {
           fallbackReason = "GROQ_API_KEY is not configured";
           if (process.env.NODE_ENV === "development") {
-            console.info("[DB Assistant] Provider: local");
-            console.info("[DB Assistant] Model: not requested");
-            console.info("[DB Assistant] Request sent: no");
-            console.info("[DB Assistant] Response received: no");
+            console.info("[DHANIX] Provider: local");
+            console.info("[DHANIX] Model: not requested");
+            console.info("[DHANIX] Request sent: no");
+            console.info("[DHANIX] Response received: no");
           }
         }
         if (!providerWorked || !providerText.trim() || providerFailed) {
@@ -375,7 +376,7 @@ export async function POST(request: Request) {
           const fallbackText = providerText.trim() ? `\n\n${fallback.text}` : fallback.text;
           for await (const chunk of streamLocal(fallbackText)) controller.enqueue(encode({ type: "text", text: chunk }));
           if (!providerActions.length) providerActions = fallback.actions;
-          if (process.env.NODE_ENV === "development") console.info(`[DB Assistant] Fallback reason: ${fallbackReason}`);
+          if (process.env.NODE_ENV === "development") console.info(`[DHANIX] Fallback reason: ${fallbackReason}`);
         }
         const recentContext = payload.messages.slice(-5).map((message) => message.content).join(" ").toLowerCase();
         const recentUserMessages = payload.messages.filter((message) => message.role === "user").slice(-5);

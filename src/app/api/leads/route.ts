@@ -11,7 +11,7 @@ const requests = new Map<string, { count: number; resetsAt: number }>();
 
 function leadResponse(body: Record<string, unknown>, status: number, reason: string) {
   if (process.env.NODE_ENV === "development") {
-    console.info(`[DB Assistant Leads] API response status: ${status}; reason: ${reason}`);
+    console.info(`[DHANIX Leads] API response status: ${status}; reason: ${reason}`);
   }
   return Response.json(body, { status });
 }
@@ -51,7 +51,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (process.env.NODE_ENV === "development") console.info("[DB Assistant Leads] lead request received");
+  if (process.env.NODE_ENV === "development") console.info("[DHANIX Leads] lead request received");
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (rateLimited(ip)) return leadResponse({ error: "Please wait a moment before trying again." }, 429, "rate_limited");
   if (Number(request.headers.get("content-length") || 0) > MAX_BODY_BYTES) return leadResponse({ error: "Enquiry details are too large." }, 413, "body_too_large");
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
   }
   const phone = typeof parsed.phone === "string" ? normalizeIndianMobile(parsed.phone) : null;
   if (process.env.NODE_ENV === "development") {
-    console.info(`[DB Assistant Leads] phone validation: ${phone ? "valid" : "invalid"}; normalized phone: ${phone ? "yes" : "no"}`);
+    console.info(`[DHANIX Leads] phone validation: ${phone ? "valid" : "invalid"}; normalized phone: ${phone ? "yes" : "no"}`);
   }
   if (!phone) return leadResponse({ error: "Please enter a valid Indian mobile number." }, 422, "invalid_phone");
 
@@ -99,7 +99,7 @@ export async function POST(request: Request) {
   const whatsappUrl = createWhatsAppEnquiryLink(lead, process.env.NEXT_PUBLIC_DHANIK_WHATSAPP_NUMBER);
   if (process.env.NODE_ENV === "development") {
     const configured = isWhatsAppNumberConfigured(process.env.NEXT_PUBLIC_DHANIK_WHATSAPP_NUMBER);
-    console.info(`[DB Assistant Leads] WhatsApp number configured: ${configured ? "yes" : "no"}; message generation: ${whatsappUrl ? "success" : "failure"}`);
+    console.info(`[DHANIX Leads] WhatsApp number configured: ${configured ? "yes" : "no"}; message generation: ${whatsappUrl ? "success" : "failure"}`);
   }
   if (!whatsappUrl) {
     return leadResponse({ error: "whatsapp_not_configured" }, 503, "whatsapp_not_configured");

@@ -6,7 +6,7 @@ export type LeadRecord = {
   className?: string;
   campus?: string;
   enquiry: string;
-  source: "DB Assistant";
+  source: "DHANIX";
   page: string;
   conversationId: string;
   createdAt: string;
@@ -15,7 +15,7 @@ export type LeadRecord = {
 
 /** Constructs a validated lead record for this request. No persistent database exists yet. */
 export function createLead(input: Omit<LeadRecord, "id" | "source" | "createdAt">): LeadRecord {
-  return { ...input, id: crypto.randomUUID(), source: "DB Assistant", createdAt: new Date().toISOString() };
+  return { ...input, id: crypto.randomUUID(), source: "DHANIX", createdAt: new Date().toISOString() };
 }
 
 export function isWhatsAppNumberConfigured(rawNumber: string | undefined): rawNumber is string {
