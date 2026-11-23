@@ -14,6 +14,7 @@ export const navigation: NavigationItem[] = [
   { label: "Campus", href: "/campus" },
   { label: "Results", href: "/results" },
   { label: "Student Life", href: "/student-life" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Events", href: "/events" },
   { label: "Resources", href: "/resources" },
   { label: "About", href: "/about" },

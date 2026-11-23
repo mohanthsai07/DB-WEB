@@ -15,45 +15,39 @@ type CardPosition = { x: number; y: number; z: number; rotateY: number; rotateZ:
 const directors: Director[] = [
   {
     id: "01",
-    name: "Director Name",
+    name: "Mr. Vikram Ajay Babu",
     role: "Director",
-    image: "/images/directors/S.png",
+    image: "/images/directors/vikram-ajay-babu.webp",
   },
   {
     id: "02",
-    name: "Director Name",
+    name: "Mr. Tirupati Reddy",
     role: "Director",
-    image: "/images/directors/S.png",
+    image: "/images/directors/tirupati-reddy.webp",
   },
   {
     id: "03",
-    name: "Director Name",
+    name: "Mr. Ram Chintalapudi",
     role: "Director",
-    image: "/images/directors/S.png",
+    image: "/images/directors/ram-chintalapudi.jpg",
   },
   {
     id: "04",
-    name: "Director Name",
+    name: "Mr. Vikram Surendra Babu",
     role: "Director",
-    image: "/images/directors/S.png",
+    image: "/images/directors/vikram-surendra-babu.webp",
   },
   {
     id: "05",
-    name: "Director Name",
+    name: "Mr. Giribabu Alla",
     role: "Director",
-    image: "/images/directors/S.png",
+    image: "/images/directors/giribabu-alla.webp",
   },
   {
     id: "06",
-    name: "Director Name",
+    name: "Mr. Rambabu Ancha",
     role: "Director",
-    image: "/images/directors/S.png",
-  },
-  {
-    id: "07",
-    name: "Director Name",
-    role: "Director",
-    image: "/images/directors/S.png",
+    image: "/images/directors/rambabu-ancha.webp",
   },
 ];
 

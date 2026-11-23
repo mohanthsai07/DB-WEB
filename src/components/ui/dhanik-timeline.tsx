@@ -1,4 +1,4 @@
-
+﻿
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
@@ -17,37 +17,48 @@ const campuses: Campus[] = [
     id: "hyderabad",
     city: "Hyderabad",
     state: "Telangana",
-    image: "/images/campus/environment.png",
-    description: "Explore Dhanik Bharat's learning locations in Hyderabad.",
+    area: "7 campuses",
+    image: "/images/campus/branches/hyderabad-harvard-madhapur.jpg",
+    description: "Explore Dhanik Bharat's seven campuses across Hyderabad.",
   },
   {
     id: "vijayawada",
     city: "Vijayawada",
     state: "Andhra Pradesh",
-    image: "/images/campus/life.png",
-    description: "Discover our learning community in Vijayawada.",
+    area: "3 campuses",
+    image: "/images/campus/branches/vijayawada-harvard-ramavarapadu.jpg",
+    description: "Discover Dhanik Bharat's three campuses in Vijayawada.",
   },
   {
     id: "guntur",
     city: "Guntur",
     state: "Andhra Pradesh",
-    image: "/images/campus/study room.png",
-    description: "Explore Dhanik Bharat's presence in Guntur.",
+    area: "4 campuses",
+    image: "/images/campus/branches/guntur-harvard-peddapalakur.jpg",
+    description: "Explore Dhanik Bharat's four campuses across Guntur.",
   },
   {
-    id: "visakhapatnam",
-    city: "Visakhapatnam",
+    id: "vizag",
+    city: "Vizag",
     state: "Andhra Pradesh",
-    area: "PM Palem, Car Shed Junction",
-    image: "/images/campus/food.png",
-    description: "Find our campus location at PM Palem, Car Shed Junction.",
+    area: "2 campuses",
+    image: "/images/campus/branches/vizag-harvard-carshed-junction.jpg",
+    description: "Find Dhanik Bharat's two campuses at Carshed Junction.",
   },
 ];
 
-const mapUrl = (campus: Campus) =>
-  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `Dhanik Bharat Educational Institutions ${campus.area ?? campus.city}`
+const mapUrl = (campus: Campus) => {
+  const queries: Record<string, string> = {
+    hyderabad: "Dhanik Bharat Harvard Campus - MADHAPUR Hyderabad",
+    vijayawada: "Dhanik Bharat Harvard Campus - RAMAVARAPADU Vijayawada",
+    guntur: "Dhanik Bharat Harvard Campus - PEDDAPALAKLURU Guntur",
+    vizag: "Dhanik Bharat Harvard Campus - CARSHED JUNCTION Vizag",
+  };
+
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    queries[campus.id] ?? `Dhanik Bharat Educational Institutions ${campus.city}`
   )}`;
+};
 
 function CampusRow({ campus }: { campus: Campus }) {
   return (
@@ -102,8 +113,8 @@ export default function DhanikTimeline() {
           </div>
 
           <p className="max-w-sm text-sm leading-6 text-[#647069] md:text-right">
-            Discover Dhanik Bharat locations across Telangana and Andhra
-            Pradesh, and find the city closest to you.
+            Discover 16 Dhanik Bharat campuses across Hyderabad,
+            Vijayawada, Guntur and Vizag.
           </p>
         </div>
 
@@ -121,8 +132,8 @@ export default function DhanikTimeline() {
 
             <div className="relative mt-5 aspect-[4/3] overflow-hidden bg-[#e3e9df]">
               <Image
-                src="/images/campus/study room.png"
-                alt="Dhanik Bharat study environment"
+                src="/images/campus/branches/hyderabad-harvard-madhapur.jpg"
+                alt="Harvard Campus, Madhapur"
                 fill
                 sizes="(max-width: 1024px) 100vw, 34vw"
                 className="object-cover"
@@ -195,7 +206,7 @@ export default function DhanikTimeline() {
         </div>
 
         {/* City strip */}
-        <div className="mt-14 md:mt-16">
+        {/* <div className="mt-14 md:mt-16">
           <div className="mb-5 flex items-end justify-between gap-4">
             <div>
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#08783f]">
@@ -239,7 +250,7 @@ export default function DhanikTimeline() {
               </a>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
